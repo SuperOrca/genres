@@ -5,6 +5,14 @@ function reset_straight(p: player):
     clear {_p}'s inventory
     give 256 of red wool to {_p}
 
+function reset_diagonal(p: player):
+    set {time.%{_p}%} to now
+    clearBlocks({_p})
+    tpWorld({_p}, "%{_p}%diagonal")
+    clear {_p}'s inventory
+    give 256 of red wool to {_p}
+
+
 function stick(p1: player, p2: player):
     set metadata "state" of {_p1} to "stick"
     set metadata "state" of {_p2} to "stick"

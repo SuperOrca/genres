@@ -6,13 +6,13 @@ on join:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
+            if metadata "state" of player is "diagonal":
+                reset_diagonal(player)
             else if metadata "state" of player is "stick":
                 safeTeleport(player, {loc.%player%})
                 remove 1 from {lives.%player%}
                 if {lives.%player%} < 1:
                     quit(player)
-            else:
-                tpWorld(player, "world")
         wait 1 second
 
 on quit:
@@ -23,6 +23,10 @@ on walk on gold block:
         set {_time} to {time.%player%}
         send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
         reset_straight(player)
+    if metadata "state" of player is "diagonal":
+        set {_time} to {time.%player%}
+        send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
+        reset_diagonal(player)
 
 on hunger meter change:
     cancel event
@@ -30,11 +34,15 @@ on hunger meter change:
 on break:
     if metadata "state" of player is "straight":
         cancel event
+    if metadata "state" of player is "diagonal":
+        cancel event
     if metadata "state" of player is "stick":
         cancel event
 
 on place:
     if metadata "state" of player is "straight":
+        add event-block's location to {-cleanup.%player%::*}
+    if metadata "state" of player is "diagonal":
         add event-block's location to {-cleanup.%player%::*}
     if metadata "state" of player is "stick":
         wait 3 seconds
@@ -61,6 +69,14 @@ command /join <text> [<player=%player%>]:
                 cloneWorld("straight", "%arg-2%_straight")
                 reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
+                    set {_time} to {time.%arg-2%}
+                    send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
+                    wait 2 ticks
+            if arg-1 is "diagonal":
+                set metadata "state" of arg-2 to "diagonal"
+                cloneWorld("diag", "%arg-2%_diagonal")
+                reset_diagonal(arg-2)
+                while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
                     wait 2 ticks

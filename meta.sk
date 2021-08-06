@@ -27,6 +27,9 @@ function quit(p: player):
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%_straight")
         delete {time.%{_p}%}
+    if metadata "state" of {_p} is "diagonal":
+        delWorld("%{_p}%diagonal")
+        delete {time.%{_p}%}
     if metadata "state" of {_p} is "stick":
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
