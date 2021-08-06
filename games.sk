@@ -10,10 +10,10 @@ function stick(p1: player, p2: player):
     set metadata "state" of {_p2} to "stick"
     remove {_p1} from {-queue.stick::*}
     remove {_p2} from {-queue.stick::*}
-    cloneWorld("stick", "%{_p1}%_%{_p2}%")
-    set {_world} to world("%{_p1}%_%{_p2}%")
-    teleport {_p1} to location(0, 2, -20, {_world})
-    teleport {_p2} to location(0, 2, 20, {_world})
+    set {_world} to "%{_p1}%_%{_p2}%"
+    cloneWorld("stick", {_world})
+    teleport {_p1} to location at (0, 2, -20) in world {_world}
+    teleport {_p2} to location at (0, 2, 20) in world {_world}
     give stick of knockback 1 to {_p1}
     give stick of knockback 1 to {_p2}
     give 16 of red wool to {_p1}
