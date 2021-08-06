@@ -13,6 +13,7 @@ function toLobby(p: player):
     set metadata "state" of {_p} to "lobby"
     clear {_p}'s inventory
     tpWorld({_p}, "world")
+    set {_p}'s gamemode to survival
 
 function quit(p: player):
     if metadata "state" of {_p} is "lobby":
@@ -30,6 +31,10 @@ function quit(p: player):
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
         delete {enemy.%{_enemy}%}
+        delete {lives.%{_p}%}
+        delete {lives.%{_enemy}%}
+        delete {loc.%{_p}%}
+        delete {loc.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match."

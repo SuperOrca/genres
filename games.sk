@@ -12,11 +12,27 @@ function stick(p1: player, p2: player):
     remove {_p2} from {-queue.stick::*}
     set {_world} to "%{_p1}%_%{_p2}%"
     cloneWorld("stick", {_world})
-    teleport {_p1} to location(0, 3, -20, world({_world}))
-    teleport {_p2} to location(0, 3, 20, world({_world}), 180, 0)
     give stick of knockback 1 to {_p1}
     give stick of knockback 1 to {_p2}
     give 16 of red wool to {_p1}
     give 16 of blue wool to {_p2}
     set {enemy.%{_p1}%} to {_p2}
     set {enemy.%{_p2}%} to {_p1}
+    set {loc.%{_p1}%} to location(0, 3, -20, world({_world}))
+    set {loc.%{_p2}%} to location(0, 3, 20, world({_world}), 180, 0)
+    teleport {_p1} to {loc.%{_p1}%}
+    teleport {_p2} to {loc.%{_p2}%}
+    set {_p1}'s gamemode to spectator
+    set {_p2}'s gamemode to spectator
+    wait 3 seconds
+    teleport {_p1} to {loc.%{_p1}%}
+    teleport {_p2} to {loc.%{_p2}%}
+    set {_p1}'s gamemode to survival
+    set {_p2}'s gamemode to survival
+    set {lives.%{_p1}%} to 5
+    set {lives.%{_p2}%} to 5
+    while metadata "state" of {_p1} is "stick":
+        set {_bar} to "&7%{_p1}%: &c%{lives.%{_p1}%}% &8| &7%{_p2}%: &c%{lives.%{_p1}%}%"
+        send action bar {_bar} to {_p1}
+        send action bar {_bar} to {_p2}
+        wait 1 second
