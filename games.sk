@@ -12,8 +12,8 @@ function stick(p1: player, p2: player):
     remove {_p2} from {-queue.stick::*}
     set {_world} to "%{_p1}%_%{_p2}%"
     cloneWorld("stick", {_world})
-    teleport {_p1} to location at (0, 2, -20) in world {_world}
-    teleport {_p2} to location at (0, 2, 20) in world {_world}
+    teleport {_p1} to location(0, 3, -20, world({_world}))
+    teleport {_p2} to location(0, 3, 20, world({_world}), 180, 0)
     give stick of knockback 1 to {_p1}
     give stick of knockback 1 to {_p2}
     give 16 of red wool to {_p1}

@@ -8,6 +8,12 @@ function inLobby(p: player) :: boolean:
         send "&4&lGENRES &8| &7You are unable to join this game because you are already in a game." to {_p}
         return false
 
+function toLobby(p: player):
+    send "&4&lGENRES &8| &7You have left the world!" to {_p}
+    set metadata "state" of {_p} to "lobby"
+    clear {_p}'s inventory
+    tpWorld({_p}, "world")
+
 function quit(p: player):
     if metadata "state" of {_p} is "lobby":
         send "&4&lGENRES &8| &7You have nowhere else to go!" to {_p}
@@ -24,15 +30,13 @@ function quit(p: player):
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
         delete {enemy.%{_enemy}%}
-        delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won the match."
-        set metadata "state" of {_enemy} to "lobby"
-        clear {_enemy}'s inventory
-        tpWorld({_enemy}, "world")
-    send "&4&lGENRES &8| &7You have left the game!" to {_p}
-    set metadata "state" of {_p} to "lobby"
-    clear {_p}'s inventory
-    tpWorld({_p}, "world")
+        if "%{_p}'s world%" contains "%{_p}%":
+            delWorld("%{_p}'s world%")
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match."
+        toLobby({_enemy})
+    toLobby({_p})
+    
+
 
 function clearBlocks(p: player):
     loop {-cleanup.%{_p}%::*}:

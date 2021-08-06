@@ -60,7 +60,7 @@ command /join <text> [<player=%player%>]:
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2 
                 add arg-2 to {-queue.stick::*}
-                if (size of {-queue.stick::*}) > 1:
+                if (size of {-queue.stick::*}) > 2:
                     stick({-queue.stick::1}, {-queue.stick::2})
             else:
                 send "&cDid not recognize gamemode."
