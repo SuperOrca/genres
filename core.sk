@@ -9,7 +9,7 @@ on walk on gold block:
         set {_time} to {time.%player%}
         send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
         set {time.%player%} to now
-        clearBlocks({cleanup.%player%::*})
+        clearBlocks(player)
         tpWorld(player, "%player%_straight")
         clear player's inventory
         give 256 of red wool to player
@@ -23,14 +23,14 @@ on break:
 
 on place:
     if metadata "state" of player is "straight":
-        add event-block's location to {cleanup.%player%::*}
+        add event-block's location to {-cleanup.%player%::*}
 
 on damage:
     if damage cause is void:
         cancel event
         if metadata "state" of victim is "straight":
             set {time.%victim%} to now
-            clearBlocks({cleanup.%victim%::*})
+            clearBlocks(victim)
             tpWorld(victim, "%victim%_straight")
             clear victim's inventory
             give 256 of red wool to victim

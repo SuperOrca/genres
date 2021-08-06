@@ -20,6 +20,7 @@ function quit(p: player):
     clear {_p}'s inventory
     tpWorld({_p}, "world")
 
-function clearBlocks(blocks: blocks):
-    loop {_blocks::*}:
+function clearBlocks(p: player):
+    loop {-cleanup.%{_p}%::*}:
         set block at loop-value to air
+    delete {-cleanup.%{_p}%::*}
