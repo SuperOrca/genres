@@ -8,3 +8,11 @@ function delWorld(world: text):
 function tpWorld(p: player, world: text):
     make console execute command "mv tp %{_p}% %{_world}%"
     
+function clean(p: player):
+    clear {_p}'s inventory
+    set {_p}'s helmet to air
+    set {_p}'s chestplate to air
+    set {_p}'s leggings to air
+    set {_p}'s boots to air
+    heal {_p}
+    feed {_p}

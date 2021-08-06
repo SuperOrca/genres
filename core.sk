@@ -6,13 +6,15 @@ on join:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
-            if metadata "state" of player is "diagonal":
+            else if metadata "state" of player is "diagonal":
                 reset_diagonal(player)
             else if metadata "state" of player is "stick":
                 safeTeleport(player, {loc.%player%})
                 remove 1 from {lives.%player%}
                 if {lives.%player%} < 1:
                     quit(player)
+            else if metadata "state" of player is "sumo":
+                quit(player)
         wait 1 second
 
 on quit:
@@ -21,11 +23,11 @@ on quit:
 on walk on gold block:
     if metadata "state" of player is "straight":
         set {_time} to {time.%player%}
-        send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
+        broadcast "&4&lGENRES &8| &c%player%&7 beat straight bridging in &c%difference between now and {_time}%&7."
         reset_straight(player)
     if metadata "state" of player is "diagonal":
         set {_time} to {time.%player%}
-        send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
+        broadcast "&4&lGENRES &8| &c%player%&7 beat diagonal bridging in &c%difference between now and {_time}%&7."
         reset_diagonal(player)
 
 on hunger meter change:
@@ -37,6 +39,8 @@ on break:
     if metadata "state" of player is "diagonal":
         cancel event
     if metadata "state" of player is "stick":
+        cancel event
+    if metadata "state" of player is "sumo":
         cancel event
 
 on place:
@@ -66,6 +70,7 @@ command /join <text> [<player=%player%>]:
                 send "&4&lGENRES &8| &7You cannot send others to a game."
         if inLobby(arg-2) is true:
             if arg-1 is "straight":
+                clean(arg-2)
                 set metadata "state" of arg-2 to "straight"
                 cloneWorld("straight", "%arg-2%_straight")
                 reset_straight(arg-2)
@@ -73,7 +78,8 @@ command /join <text> [<player=%player%>]:
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
                     wait 2 ticks
-            if arg-1 is "diagonal":
+            else if arg-1 is "diagonal":
+                clean(arg-2)
                 set metadata "state" of arg-2 to "diagonal"
                 cloneWorld("diag", "%arg-2%_diag")
                 reset_diagonal(arg-2)
@@ -82,11 +88,19 @@ command /join <text> [<player=%player%>]:
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
                     wait 2 ticks
             else if arg-1 is "stick":
+                clean(arg-2)
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2 
                 add arg-2 to {-queue.stick::*}
                 if (size of {-queue.stick::*}) > 2:
                     stick({-queue.stick::1}, {-queue.stick::2})
+            else if arg-1 is "sumo":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "queued"
+                send "&4&lGENRES &8| &7Joined queue for &csumo&7." to arg-2 
+                add arg-2 to {-queue.sumo::*}
+                if (size of {-queue.sumo::*}) > 2:
+                    sumo({-queue.sumo::1}, {-queue.sumo::2})
             else:
                 send "&cDid not recognize gamemode."
                 

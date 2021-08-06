@@ -2,16 +2,15 @@ function reset_straight(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
     tpWorld({_p}, "%{_p}%_straight")
-    clear {_p}'s inventory
+    clean({_p})
     give 256 of red wool to {_p}
 
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
     tpWorld({_p}, "%{_p}%_diag")
-    clear {_p}'s inventory
+    clean({_p})
     give 256 of red wool to {_p}
-
 
 function stick(p1: player, p2: player):
     set metadata "state" of {_p1} to "stick"
@@ -39,3 +38,18 @@ function stick(p1: player, p2: player):
         send action bar {_bar} to {_p1}
         send action bar {_bar} to {_p2}
         wait 1 second
+
+
+function sumo(p1: player, p2: player):
+    set metadata "state" of {_p1} to "sumo"
+    set metadata "state" of {_p2} to "sumo"
+    remove {_p1} from {-queue.sumo::*}
+    remove {_p2} from {-queue.sumo::*}
+    set {_world} to "%{_p1}%_%{_p2}%"
+    cloneWorld("sumo", {_world})
+    set {enemy.%{_p1}%} to {_p2}
+    set {enemy.%{_p2}%} to {_p1}
+    teleport {_p1} to location(0.5, 3, -5.5, world({_world}))
+    teleport {_p2} to location(0.5, 3, 6.5, world({_world}), 180, 0)
+    set {_p1}'s gamemode to survival
+    set {_p2}'s gamemode to survival
