@@ -17,6 +17,10 @@ on walk on gold block:
 on hunger meter change:
     cancel event
 
+on break:
+    if metadata "state" of player is "straight":
+        cancel event
+
 on place:
     if metadata "state" of player is "straight":
         add event-block's location to {cleanup.%player%::*}

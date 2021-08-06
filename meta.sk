@@ -21,4 +21,5 @@ function quit(p: player):
     tpWorld({_p}, "world")
 
 function clearBlocks(blocks: blocks):
-    set {_blocks::*} to air
+    loop {_blocks::*}:
+        set block at loop-value to air
