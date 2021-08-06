@@ -58,6 +58,7 @@ on damage:
 
 
 command /join <text> [<player=%player%>]:
+    aliases: /play
     usage: &cUsage: /join <game> [player]
     trigger:
         if player is not arg-2:
