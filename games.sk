@@ -22,17 +22,12 @@ function stick(p1: player, p2: player):
     set {loc.%{_p2}%} to location(0, 3, 20, world({_world}), 180, 0)
     teleport {_p1} to {loc.%{_p1}%}
     teleport {_p2} to {loc.%{_p2}%}
-    set {_p1}'s gamemode to spectator
-    set {_p2}'s gamemode to spectator
-    wait 3 seconds
-    teleport {_p1} to {loc.%{_p1}%}
-    teleport {_p2} to {loc.%{_p2}%}
     set {_p1}'s gamemode to survival
     set {_p2}'s gamemode to survival
     set {lives.%{_p1}%} to 5
     set {lives.%{_p2}%} to 5
     while metadata "state" of {_p1} is "stick":
-        set {_bar} to "&7%{_p1}%: &c%{lives.%{_p1}%}% &8| &7%{_p2}%: &c%{lives.%{_p1}%}%"
+        set {_bar} to "&7%{_p1}%: &c%{lives.%{_p1}%}% &8| &7%{_p2}%: &c%{lives.%{_p2}%}%"
         send action bar {_bar} to {_p1}
         send action bar {_bar} to {_p2}
         wait 1 second
