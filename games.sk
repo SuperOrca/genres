@@ -18,8 +18,8 @@ function stick(p1: player, p2: player):
     give 16 of blue wool to {_p2}
     set {enemy.%{_p1}%} to {_p2}
     set {enemy.%{_p2}%} to {_p1}
-    set {loc.%{_p1}%} to location(0, 3, -20, world({_world}))
-    set {loc.%{_p2}%} to location(0, 3, 20, world({_world}), 180, 0)
+    set {loc.%{_p1}%} to location(0.5, 3, -20.5, world({_world}))
+    set {loc.%{_p2}%} to location(0.5, 3, 20.5, world({_world}), 180, 0)
     teleport {_p1} to {loc.%{_p1}%}
     teleport {_p2} to {loc.%{_p2}%}
     set {_p1}'s gamemode to survival
