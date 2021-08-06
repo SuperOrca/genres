@@ -1,5 +1,17 @@
 on join:
     set metadata "state" of player to "lobby"
+    tpWorld(player, "world")
+    while player is online:
+        if y-coord of player < 1:
+            if metadata "state" of player is "straight":
+                reset_straight(player)
+            else if metadata "state" of player is "stick":
+                safeTeleport(player, {loc.%player%})
+                remove 1 from {lives.%player%}
+                if {lives.%player%} < 1:
+                    quit(player)
+            else:
+                tpWorld(player, "world")
 
 on quit:
     quit(player)
@@ -28,15 +40,6 @@ on place:
 
 
 on damage:
-    if damage cause is void:
-        cancel event
-        if metadata "state" of victim is "straight":
-            reset_straight(victim)
-        if metadata "state" of victim is "stick":
-            safeTeleport(victim, {loc.%victim%})
-            remove 1 from {lives.%victim%}
-            if {lives.%victim%} < 1:
-                quit(victim)
     if damage cause is attack:
         if metadata "state" of victim is "stick":
             heal victim
