@@ -1,0 +1,58 @@
+on join:
+    set metadata "state" of player to "lobby"
+
+on quit:
+    quit(player)
+
+on walk on gold block:
+    if metadata "state" of player is "straight":
+        set {_time} to {time.%player%}
+        send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
+        set {time.%player%} to now
+        clearBlocks({cleanup.%player%::*})
+        tpWorld(player, "%player%_straight")
+        clear player's inventory
+        give 256 of red wool to player
+
+on place:
+    if metadata "state" of player is "straight":
+        add event-block's location to {cleanup.%player%::*}
+
+on damage:
+    if damage cause is void:
+        cancel event
+        if metadata "state" of victim is "straight":
+            set {time.%victim%} to now
+            clearBlocks({cleanup.%victim%::*})
+            tpWorld(victim, "%victim%_straight")
+            clear victim's inventory
+            give 256 of red wool to victim
+    if damage cause is fall:
+        cancel event
+
+
+command /join <text> [<player=%player%>]:
+    usage: &cUsage: /join <game> [player]
+    trigger:
+        if player is not arg-2:
+            if player is not op:
+                send "&4&lGENRES &8| &7You cannot send others to a game."
+        if inLobby(arg-2) is true:
+            if arg-1 is "straight":
+                set metadata "state" of arg-2 to "straight"
+                cloneWorld("straight", "%arg-2%_straight")
+                tpWorld(arg-2, "%arg-2%_straight")
+                give 256 of red wool to arg-2
+                set {time.%arg-2%} to now
+                while metadata "state" of arg-2 is "straight":
+                    set {_time} to {time.%arg-2%}
+                    send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
+                    wait 2 ticks
+                
+command /leave [<player=%player%>]:
+    aliases: /l
+    trigger:
+        if player is not arg-1:
+            if player is not op:
+                send "&4&lGENRES &8| &7You cannot send others to a game."
+        quit(arg-1)

@@ -1,0 +1,26 @@
+function inLobby(p: player) :: boolean:
+    if metadata "state" of {_p} is "lobby":
+        return true
+    else if metadata "state" of {_p} is "queued":
+        send "&4&lGENRES &8| &7You are unable to join this game because you are in queue." to {_p}
+        return false
+    else:
+        send "&4&lGENRES &8| &7You are unable to join this game because you are already in a game." to {_p}
+        return false
+
+function quit(p: player):
+    if metadata "state" of {_p} is "lobby":
+        send "&4&lGENRES &8| &7You have nowhere else to go!" to {_p}
+        exit
+    if metadata "state" of {_p} is "straight":
+        delWorld("%{_p}%_straight")
+        delete {time.%{_p}%}
+    send "&4&lGENRES &8| &7You have left the game!" to {_p}
+    set metadata "state" of {_p} to "lobby"
+    clear {_p}'s inventory
+    tpWorld({_p}, "world")
+
+function clearBlocks(blocks: objects):
+    loop {_blocks::*}:
+        set block at loop-value to air
+        wait 1 tick

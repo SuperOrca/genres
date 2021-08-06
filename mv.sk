@@ -1,0 +1,10 @@
+function cloneWorld(world: text, name: text):
+    make console execute command "mv clone %{_world}% %{_name}%"
+
+function delWorld(world: text):
+    make console execute command "mv delete %{_world}%"
+    make console execute command "mv confirm"
+
+function tpWorld(p: player, world: text):
+    make console execute command "mv tp %{_p}% %{_world}%"
+    
