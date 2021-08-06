@@ -12,6 +12,7 @@ on join:
                     quit(player)
             else:
                 tpWorld(player, "world")
+        wait 1 second
 
 on quit:
     quit(player)
