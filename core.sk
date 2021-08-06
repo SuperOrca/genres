@@ -74,7 +74,7 @@ command /join <text> [<player=%player%>]:
                     wait 2 ticks
             if arg-1 is "diagonal":
                 set metadata "state" of arg-2 to "diagonal"
-                cloneWorld("diag", "%arg-2%_diagonal")
+                cloneWorld("diag", "%arg-2%_diag")
                 reset_diagonal(arg-2)
                 while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}

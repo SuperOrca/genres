@@ -8,7 +8,7 @@ function reset_straight(p: player):
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    tpWorld({_p}, "%{_p}%diagonal")
+    tpWorld({_p}, "%{_p}%_diag")
     clear {_p}'s inventory
     give 256 of red wool to {_p}
 
