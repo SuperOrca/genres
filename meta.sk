@@ -47,3 +47,8 @@ function clearBlocks(p: player):
     loop {-cleanup.%{_p}%::*}:
         set block at loop-value to air
     delete {-cleanup.%{_p}%::*}
+
+function safeTeleport(p: player, l: location):
+    set block at {_l} to air
+    set block above block at {_l} to air
+    teleport {_p} to {_l}

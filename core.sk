@@ -33,7 +33,7 @@ on damage:
         if metadata "state" of victim is "straight":
             reset_straight(victim)
         if metadata "state" of victim is "stick":
-            teleport victim to {loc.%victim%}
+            safeTeleport(victim, {loc.%victim%})
             remove 1 from {lives.%victim%}
             if {lives.%victim%} < 1:
                 quit(victim)
