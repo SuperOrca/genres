@@ -1,5 +1,6 @@
 on join:
     set metadata "state" of player to "lobby"
+    make console execute command "team join nocol %player%"
     tpWorld(player, "world")
     while player is online:
         if y-coord of player < 1:
