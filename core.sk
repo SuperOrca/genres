@@ -16,16 +16,27 @@ on hunger meter change:
 on break:
     if metadata "state" of player is "straight":
         cancel event
+    if metadata "state" of player is "stick":
+        cancel event
 
 on place:
     if metadata "state" of player is "straight":
         add event-block's location to {-cleanup.%player%::*}
+    if metadata "state" of player is "stick":
+        wait 3 seconds
+        set event-block to air
+
 
 on damage:
     if damage cause is void:
         cancel event
         if metadata "state" of victim is "straight":
             reset_straight(victim)
+        if metadata "state" of victim is "stick":
+            quit(victim)
+    if damage cause is attack:
+        if metadata "state" of victim is "stick":
+            heal victim
     if damage cause is fall:
         cancel event
 
@@ -45,6 +56,14 @@ command /join <text> [<player=%player%>]:
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
                     wait 2 ticks
+            else if arg-1 is "stick":
+                set metadata "state" of arg-2 to "queued"
+                send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2 
+                add arg-2 to {-queue.stick::*}
+                if (size of {-queue.stick::*}) > 1:
+                    stick({-queue.stick::1}, {-queue.stick::2})
+            else:
+                send "&cDid not recognize gamemode."
                 
 command /leave [<player=%player%>]:
     aliases: /l

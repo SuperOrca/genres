@@ -12,9 +12,20 @@ function quit(p: player):
     if metadata "state" of {_p} is "lobby":
         send "&4&lGENRES &8| &7You have nowhere else to go!" to {_p}
         exit
+    if metadata "state" of {_p} is "queued":
+        remove {_p} from {-queue.stick::*}
+        send "&4&lGENRES &8| &7You left the queue." to {_p}
+        set metadata "state" of {_p} to "lobby"
+        exit
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%_straight")
         delete {time.%{_p}%}
+    if metadata "state" of {_p} is "stick":
+        set {_enemy} to {enemy.%{_p}%}
+        delete {enemy.%{_p}%}
+        delete {enemy.%{_enemy}%}
+        delWorld("%{_p}'s world%")
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won the match."
     send "&4&lGENRES &8| &7You have left the game!" to {_p}
     set metadata "state" of {_p} to "lobby"
     clear {_p}'s inventory

@@ -4,3 +4,18 @@ reset_straight(p: player):
     tpWorld({_p}, "%{_p}%_straight")
     clear {_p}'s inventory
     give 256 of red wool to {_p}
+
+stick(p1: player, p2: player):
+    set metadata "state" of {_p1} to "stick"
+    set metadata "state" of {_p2} to "stick"
+    remove {_p1} from {-queue.stick::*}
+    remove {_p2} from {-queue.stick::*}
+    cloneWorld("stick", "%{_p1}%_%{_p2}%")
+    teleport {_p1} to location(0, 2, -20, (world "%{_p1}%_%{_p2}%"))
+    teleport {_p2} to location(0, 2, 20, (world "%{_p1}%_%{_p2}%"))
+    give stick of knockback 1 to {_p1}
+    give stick of knockback 1 to {_p2}
+    give 16 of red wool to {_p1}
+    give 16 of blue wool to {_p2}
+    set {enemy.%{_p1}%} to {_p2}
+    set {enemy.%{_p2}%} to {_p1}
