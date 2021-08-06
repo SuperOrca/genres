@@ -1,0 +1,6 @@
+reset_straight(p: player):
+    set {time.%{_p}%} to now
+    clearBlocks({_p})
+    tpWorld({_p}, "%{_p}%_straight")
+    clear {_p}'s inventory
+    give 256 of red wool to {_p}

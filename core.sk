@@ -8,11 +8,7 @@ on walk on gold block:
     if metadata "state" of player is "straight":
         set {_time} to {time.%player%}
         send "&4&lGENRES &8| &7Your time was &c%difference between now and {_time}%&7."
-        set {time.%player%} to now
-        clearBlocks(player)
-        tpWorld(player, "%player%_straight")
-        clear player's inventory
-        give 256 of red wool to player
+        reset_straight(player)
 
 on hunger meter change:
     cancel event
@@ -29,11 +25,7 @@ on damage:
     if damage cause is void:
         cancel event
         if metadata "state" of victim is "straight":
-            set {time.%victim%} to now
-            clearBlocks(victim)
-            tpWorld(victim, "%victim%_straight")
-            clear victim's inventory
-            give 256 of red wool to victim
+            reset_straight(victim)
     if damage cause is fall:
         cancel event
 
@@ -48,9 +40,7 @@ command /join <text> [<player=%player%>]:
             if arg-1 is "straight":
                 set metadata "state" of arg-2 to "straight"
                 cloneWorld("straight", "%arg-2%_straight")
-                tpWorld(arg-2, "%arg-2%_straight")
-                give 256 of red wool to arg-2
-                set {time.%arg-2%} to now
+                reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
