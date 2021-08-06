@@ -26,6 +26,9 @@ function quit(p: player):
         delete {enemy.%{_enemy}%}
         delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won the match."
+        set metadata "state" of {_enemy} to "lobby"
+        clear {_enemy}'s inventory
+        tpWorld({_enemy}, "world")
     send "&4&lGENRES &8| &7You have left the game!" to {_p}
     set metadata "state" of {_p} to "lobby"
     clear {_p}'s inventory
