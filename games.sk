@@ -1,11 +1,11 @@
-reset_straight(p: player):
+function reset_straight(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
     tpWorld({_p}, "%{_p}%_straight")
     clear {_p}'s inventory
     give 256 of red wool to {_p}
 
-stick(p1: player, p2: player):
+function stick(p1: player, p2: player):
     set metadata "state" of {_p1} to "stick"
     set metadata "state" of {_p2} to "stick"
     remove {_p1} from {-queue.stick::*}
