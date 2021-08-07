@@ -1,6 +1,6 @@
 on join:
     set metadata "state" of player to "lobby"
-    tpWorld(player, "world")
+    clean(player)
     while player is online:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
@@ -43,7 +43,7 @@ on tab complete:
 		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
 		set tab completions for position 2 to all scripts
 	if event-string is "/join" or "/play":
-		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "peral", "sumo", and "classic"
+		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "pearl", "sumo", and "classic"
 		set tab completions for position 2 to all players
 	if event-string is "/loc":
 		set tab completions for position 1 to all players
@@ -70,7 +70,7 @@ on walk on gold block:
         reset_water(player)
     if metadata "state" of player is "tnt":
         set {_dist} to (x-coord of player) - 9
-        send "&aYou made it %{_dist}%&a blocks."
+        send "&4&lGENRES &8| &7You made it &c%{_dist}%&7 blocks."
         reset_tnt(player)
     if metadata "state" of player is "diagonal":
         set {_time} to {time.%player%}
@@ -145,8 +145,8 @@ on damage:
         cancel event
     if damage cause is entity explosion:
         cancel event
-        push player upwards at speed 0.5
-        push player forwards at speed 0.5
+        push victim upwards at speed 1
+        push victim forwards at speed 1
 
 on world change:
     world is "world"
@@ -240,7 +240,7 @@ command /join <text> [<player=%player%>]:
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &cclassic&7." to arg-2 
                 add arg-2 to {-queue.classic::*}
-                if (size of {-queue.classic::*}) > 2:
+                if (size of {-queue.classic::*}) > 1:
                     classic({-queue.classic::1}, {-queue.classic::2})
             else:
                 send "&cDid not recognize gamemode."
