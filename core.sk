@@ -1,4 +1,7 @@
 on join:
+    set join message to "&3%player%&3 joined."
+    wait 1 tick
+    stop if player is not online
     set metadata "state" of player to "lobby"
     clean(player)
     while player is online:
@@ -30,6 +33,9 @@ on join:
             else if metadata "state" of player is "sumo":
                 quit(player)
         wait 1 second
+
+on quit:
+    set quit message to "&3%player%&3 quit."
 
 on quit:
     quit(player)
@@ -116,7 +122,8 @@ on place:
             cancel event
             send "&4&lGENRES &8| &7You cannot place blocks here."
         else:
-            add event-block's location to {-cleanup.%player%::*}
+            wait 2 seconds
+            set event-block to air
     if metadata "state" of player is "diagonal":
         add event-block's location to {-cleanup.%player%::*}
     if metadata "state" of player is "stick":
