@@ -43,7 +43,7 @@ on tab complete:
 		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
 		set tab completions for position 2 to all scripts
 	if event-string is "/join" or "/play":
-		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "peral", and "sumo"
+		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "peral", "sumo", and "classic"
 		set tab completions for position 2 to all players
 	if event-string is "/loc":
 		set tab completions for position 1 to all players
@@ -97,6 +97,8 @@ on break:
         cancel event
     if metadata "state" of player is "pearl":
         cancel event
+    if metadata "state" of player is "classic":
+        cancel event
 	
 
 on place:
@@ -133,12 +135,18 @@ on damage:
             heal victim
         if metadata "state" of victim is "sumo":
             heal victim
+        if metadata "state" of victim is "classic":
+            if final damage >= victim's health:
+                cancel event
+                quit(victim)
         if metadata "state" of victim is "pearl":
             heal victim
     if damage cause is fall:
         cancel event
     if damage cause is entity explosion:
-        heal victim
+        cancel event
+        push player upwards at speed 0.5
+        push player forwards at speed 0.5
 
 on world change:
     world is "world"
@@ -227,6 +235,13 @@ command /join <text> [<player=%player%>]:
                 add arg-2 to {-queue.sumo::*}
                 if (size of {-queue.sumo::*}) > 2:
                     sumo({-queue.sumo::1}, {-queue.sumo::2})
+            else if arg-1 is "classic":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "queued"
+                send "&4&lGENRES &8| &7Joined queue for &cclassic&7." to arg-2 
+                add arg-2 to {-queue.classic::*}
+                if (size of {-queue.classic::*}) > 2:
+                    classic({-queue.classic::1}, {-queue.classic::2})
             else:
                 send "&cDid not recognize gamemode."
                 

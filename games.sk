@@ -10,6 +10,7 @@ function reset_clutch(p: player):
     clearBlocks({_p})
     tpWorld({_p}, "%{_p}%")
     clean({_p})
+    set {_p}'s gamemode to adventure
     give 64 of red wool with nbt "{CanPlaceOn:[""minecraft:white_terracotta""]}" to {_p}
 
 function reset_water(p: player):
@@ -98,5 +99,31 @@ function sumo(p1: player, p2: player):
     set {enemy.%{_p2}%} to {_p1}
     teleport {_p1} to location(0.5, 3, -5.5, world({_world}), 0, 0)
     teleport {_p2} to location(0.5, 3, 6.5, world({_world}), 180, 0)
+    set {_p1}'s gamemode to survival
+    set {_p2}'s gamemode to survival
+
+function give_classic(p: player):
+    equip {_p} with iron helmet
+    equip {_p} with iron chestplate
+    equip {_p} with iron leggings
+    equip {_p} with iron boots
+    give {_p} iron sword
+    give {_p} fishing rod
+    give {_p} bow
+    give 5 of arrow to {_p}
+
+function classic(p1: player, p2: player):
+    set metadata "state" of {_p1} to "classic"
+    set metadata "state" of {_p2} to "classic"
+    remove {_p1} from {-queue.classic::*}
+    remove {_p2} from {-queue.classic::*}
+    set {_world} to "%{_p1}%_%{_p2}%"
+    cloneWorld("classic", {_world})
+    give_classic({_p1})
+    give_classic({_p2})
+    set {enemy.%{_p1}%} to {_p2}
+    set {enemy.%{_p2}%} to {_p1}
+    teleport {_p1} to location(0.5, 65, 18.5, world({_world}), 180, 0)
+    teleport {_p2} to location(0.5, 65, -18.5, world({_world}), 0, 0)
     set {_p1}'s gamemode to survival
     set {_p2}'s gamemode to survival
