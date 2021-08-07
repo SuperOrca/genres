@@ -103,7 +103,7 @@ on place:
     if metadata "state" of player is "straight":
         add event-block's location to {-cleanup.%player%::*}
     if metadata "state" of player is "clutch":
-        if y-coord of event-block > 7:
+        if y-coord of event-block > 5:
             cancel event
             send "&4&lGENRES &8| &7You cannot place blocks here."
         else:

@@ -10,7 +10,7 @@ function reset_clutch(p: player):
     clearBlocks({_p})
     tpWorld({_p}, "%{_p}%")
     clean({_p})
-    give 256 of red wool to {_p}
+    give 256 of red wool with nbt "{CanPlaceOn:[""minecraft:white_terracotta""]}" to {_p}
 
 function reset_water(p: player):
     tpWorld({_p}, "%{_p}%")
