@@ -20,6 +20,8 @@ on join:
                 if {lives.%player%} < 1:
                     quit(player)
             else if metadata "state" of player is "pearl":
+                clean(player)
+                give_pearl(player)
                 safeTeleport(player, {loc.%player%})
                 remove 1 from {lives.%player%}
                 if {lives.%player%} < 1:
@@ -108,8 +110,8 @@ on damage:
             heal victim
     if damage cause is fall:
         cancel event
-    if damage cause is tnt:
-        cancel event
+    if damage cause is entity explosion:
+        heal victim
     
 
 command /loc <player>:
@@ -122,8 +124,9 @@ command /loc <player>:
 command /join <text> [<player=%player%>]:
     aliases: /play
     usage: &cUsage: /join <game> [player]
-    cooldown: 3 seconds
+    cooldown: 2 seconds
     cooldown message: &cThis command has a 3 second cooldown.
+    cooldown bypass: bypass
     trigger:
         if player is not arg-2:
             if player is not op:
@@ -168,7 +171,6 @@ command /join <text> [<player=%player%>]:
                 clean(arg-2)
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &cpearl&7." to arg-2 
-                send "(%size of {-queue.pearl::*}%)"
                 add arg-2 to {-queue.pearl::*}
                 if (size of {-queue.pearl::*}) > 1:
                     pearl({-queue.pearl::1}, {-queue.pearl::2})
@@ -177,7 +179,7 @@ command /join <text> [<player=%player%>]:
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &csumo&7." to arg-2 
                 add arg-2 to {-queue.sumo::*}
-                if (size of {-queue.sumo::*}) > 1:
+                if (size of {-queue.sumo::*}) > 2:
                     sumo({-queue.sumo::1}, {-queue.sumo::2})
             else:
                 send "&cDid not recognize gamemode."

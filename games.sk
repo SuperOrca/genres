@@ -48,6 +48,11 @@ function stick(p1: player, p2: player):
         send action bar {_bar} to {_p1}
         send action bar {_bar} to {_p2}
         wait 1 second
+
+function give_pearl(p: player):
+    give stick of knockback 1 to {_p}
+    give 8 of ender pearl to {_p}
+    give 16 of red wool to {_p}
     
 function pearl(p1: player, p2: player):
     set metadata "state" of {_p1} to "pearl"
@@ -56,14 +61,12 @@ function pearl(p1: player, p2: player):
     remove {_p2} from {-queue.pearl::*}
     set {_world} to "%{_p1}%_%{_p2}%"
     cloneWorld("pearl", {_world})
-    give 8 of ender pearl to {_p1}
-    give 8 of ender pearl to {_p2}
-    give 16 of red wool to {_p1}
-    give 16 of blue wool to {_p2}
+    give_pearl({_p1})
+    give_pearl({_p2})
     set {enemy.%{_p1}%} to {_p2}
     set {enemy.%{_p2}%} to {_p1}
-    set {loc.%{_p1}%} to location(-47.5, 3, 4.5, world({_world}))
-    set {loc.%{_p2}%} to location(1.5, 3, -1.5, world({_world}), 180, 0)
+    set {loc.%{_p1}%} to location(-46.5, 33, 4.5, world({_world}), -90, 0)
+    set {loc.%{_p2}%} to location(-0.5, 33, -0.5, world({_world}), 90, 0)
     teleport {_p1} to {loc.%{_p1}%}
     teleport {_p2} to {loc.%{_p2}%}
     set {_p1}'s gamemode to survival

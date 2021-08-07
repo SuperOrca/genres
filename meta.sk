@@ -47,7 +47,7 @@ function quit(p: player):
         delete {loc.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match against %{_p}%."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match against &c%{_p}%."
         toLobby({_enemy})
     if metadata "state" of {_p} is "pearl":
         set {_enemy} to {enemy.%{_p}%}
@@ -59,7 +59,7 @@ function quit(p: player):
         delete {loc.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a pearl match against %{_p}%."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a pearl match against &c%{_p}%."
         toLobby({_enemy})
     if metadata "state" of {_p} is "sumo":
         set {_enemy} to {enemy.%{_p}%}
@@ -67,7 +67,7 @@ function quit(p: player):
         delete {enemy.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a sumo match against %{_p}%."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a sumo match against &c%{_p}%."
         toLobby({_enemy})
     toLobby({_p})
     
