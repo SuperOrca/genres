@@ -173,6 +173,9 @@ on chat:
         set {_color} to "&c" if player is op
         set chat format to "%{_color}%%player%&f: %message%"
 
+on drop:
+    cancel event
+
 command /loc <player>:
     usage: &cUsage: /loc <player>
     trigger:
@@ -291,3 +294,15 @@ command /boop <player>:
         send "&d&lBOOP! &7You booped &f%arg-1%&7." to player
         send "&d&lBOOP! &7You were booped by &f%player%&7." to arg-1
         playSound(arg-1, "block.note_block.pling")
+
+command /staffchat <text>:
+    aliases: /sc
+    permission: op
+    permission message: &cNo Permission.
+    trigger:
+        send "&4&lSTAFF &8| &7%player%&f: %arg-1%" to all players where [input has permission "staff"]
+
+command /discord:
+    trigger:
+        send "&4&lGENRES &8| &7Click &c<link:https://discord.gg/NxsBMWKWuh>here<reset>&7 to join our discord."
+        playSound(player, "block.note_block.pling")

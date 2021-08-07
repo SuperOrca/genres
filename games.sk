@@ -40,7 +40,7 @@ function stick(p1: player, p2: player):
     give stick of knockback 1 to {_p1}
     give stick of knockback 1 to {_p2}
     give 16 of red wool to {_p1}
-    give 16 of blue wool to {_p2}
+    give 16 of red wool to {_p2}
     set {enemy.%{_p1}%} to {_p2}
     set {enemy.%{_p2}%} to {_p1}
     set {loc.%{_p1}%} to location(0.5, 3, -20.5, world({_world}))
