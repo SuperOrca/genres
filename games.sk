@@ -1,14 +1,19 @@
 function reset_straight(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    tpWorld({_p}, "%{_p}%_straight")
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give 256 of red wool to {_p}
+
+function reset_water(p: player):
+    tpWorld({_p}, "%{_p}%")
+    clean({_p})
+    give player water bucket
 
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    tpWorld({_p}, "%{_p}%_diag")
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give 256 of red wool to {_p}
 

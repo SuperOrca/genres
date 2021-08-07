@@ -25,10 +25,10 @@ function quit(p: player):
         set metadata "state" of {_p} to "lobby"
         exit
     if metadata "state" of {_p} is "straight":
-        delWorld("%{_p}%_straight")
+        delWorld("%{_p}%")
         delete {time.%{_p}%}
     if metadata "state" of {_p} is "diagonal":
-        delWorld("%{_p}%_diag")
+        delWorld("%{_p}%")
         delete {time.%{_p}%}
     if metadata "state" of {_p} is "stick":
         set {_enemy} to {enemy.%{_p}%}
