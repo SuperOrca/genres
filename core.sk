@@ -19,6 +19,11 @@ on join:
                 remove 1 from {lives.%player%}
                 if {lives.%player%} < 1:
                     quit(player)
+            else if metadata "state" of player is "pearl":
+                safeTeleport(player, {loc.%player%})
+                remove 1 from {lives.%player%}
+                if {lives.%player%} < 1:
+                    quit(player)
             else if metadata "state" of player is "sumo":
                 quit(player)
         wait 1 second
@@ -67,6 +72,9 @@ on break:
         cancel event
     if metadata "state" of player is "sumo":
         cancel event
+    if metadata "state" of player is "pearl":
+        cancel event
+	
 
 on place:
     if metadata "state" of player is "straight":
@@ -83,6 +91,9 @@ on place:
         if event-block is tnt:
             set event-block to air
             spawn primed tnt at event-block's location
+    if metadata "state" of player is "pearl":
+        wait 3 seconds
+        set event-block to air
 
 on explode:
     cancel event
@@ -93,10 +104,13 @@ on damage:
             heal victim
         if metadata "state" of victim is "sumo":
             heal victim
+        if metadata "state" of victim is "pearl":
+            heal victim
     if damage cause is fall:
         cancel event
     if damage cause is tnt:
         cancel event
+    
 
 command /loc <player>:
     usage: &cUsage: /loc <player>
@@ -146,16 +160,24 @@ command /join <text> [<player=%player%>]:
             else if arg-1 is "stick":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2 
+                send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2
                 add arg-2 to {-queue.stick::*}
-                if (size of {-queue.stick::*}) > 2:
+                if (size of {-queue.stick::*}) > 1:
                     stick({-queue.stick::1}, {-queue.stick::2})
+            else if arg-1 is "pearl":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "queued"
+                send "&4&lGENRES &8| &7Joined queue for &cpearl&7." to arg-2 
+                send "(%size of {-queue.pearl::*}%)"
+                add arg-2 to {-queue.pearl::*}
+                if (size of {-queue.pearl::*}) > 1:
+                    pearl({-queue.pearl::1}, {-queue.pearl::2})
             else if arg-1 is "sumo":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &csumo&7." to arg-2 
                 add arg-2 to {-queue.sumo::*}
-                if (size of {-queue.sumo::*}) > 2:
+                if (size of {-queue.sumo::*}) > 1:
                     sumo({-queue.sumo::1}, {-queue.sumo::2})
             else:
                 send "&cDid not recognize gamemode."

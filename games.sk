@@ -48,6 +48,33 @@ function stick(p1: player, p2: player):
         send action bar {_bar} to {_p1}
         send action bar {_bar} to {_p2}
         wait 1 second
+    
+function pearl(p1: player, p2: player):
+    set metadata "state" of {_p1} to "pearl"
+    set metadata "state" of {_p2} to "pearl"
+    remove {_p1} from {-queue.pearl::*}
+    remove {_p2} from {-queue.pearl::*}
+    set {_world} to "%{_p1}%_%{_p2}%"
+    cloneWorld("pearl", {_world})
+    give 8 of ender pearl to {_p1}
+    give 8 of ender pearl to {_p2}
+    give 16 of red wool to {_p1}
+    give 16 of blue wool to {_p2}
+    set {enemy.%{_p1}%} to {_p2}
+    set {enemy.%{_p2}%} to {_p1}
+    set {loc.%{_p1}%} to location(-47.5, 3, 4.5, world({_world}))
+    set {loc.%{_p2}%} to location(1.5, 3, -1.5, world({_world}), 180, 0)
+    teleport {_p1} to {loc.%{_p1}%}
+    teleport {_p2} to {loc.%{_p2}%}
+    set {_p1}'s gamemode to survival
+    set {_p2}'s gamemode to survival
+    set {lives.%{_p1}%} to 2
+    set {lives.%{_p2}%} to 2
+    while metadata "state" of {_p1} is "pearl":
+        set {_bar} to "&7%{_p1}%: &c%{lives.%{_p1}%}% &8| &7%{_p2}%: &c%{lives.%{_p2}%}%"
+        send action bar {_bar} to {_p1}
+        send action bar {_bar} to {_p2}
+        wait 1 second
 
 
 function sumo(p1: player, p2: player):

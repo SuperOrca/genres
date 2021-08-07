@@ -2,10 +2,10 @@ function inLobby(p: player) :: boolean:
     if metadata "state" of {_p} is "lobby":
         return true
     else if metadata "state" of {_p} is "queued":
-        send "&4&lGENRES &8| &7You are unable to join this game because you are in queue." to {_p}
+        send "&4&lGENRES &8| &7You are unable to do this because you are in queue." to {_p}
         return false
     else:
-        send "&4&lGENRES &8| &7You are unable to join this game because you are already in a game." to {_p}
+        send "&4&lGENRES &8| &7You are unable to do this because you are already in a game." to {_p}
         return false
 
 function toLobby(p: player):
@@ -21,9 +21,12 @@ function quit(p: player):
         exit
     if metadata "state" of {_p} is "queued":
         remove {_p} from {-queue.stick::*}
+        remove {_p} from {-queue.pearl::*}
+        remove {_p} from {-queue.sumo::*}
         send "&4&lGENRES &8| &7You left the queue." to {_p}
         set metadata "state" of {_p} to "lobby"
         exit
+
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%")
         delete {time.%{_p}%}
@@ -44,7 +47,19 @@ function quit(p: player):
         delete {loc.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match against %{_p}%."
+        toLobby({_enemy})
+    if metadata "state" of {_p} is "pearl":
+        set {_enemy} to {enemy.%{_p}%}
+        delete {enemy.%{_p}%}
+        delete {enemy.%{_enemy}%}
+        delete {lives.%{_p}%}
+        delete {lives.%{_enemy}%}
+        delete {loc.%{_p}%}
+        delete {loc.%{_enemy}%}
+        if "%{_p}'s world%" contains "%{_p}%":
+            delWorld("%{_p}'s world%")
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a pearl match against %{_p}%."
         toLobby({_enemy})
     if metadata "state" of {_p} is "sumo":
         set {_enemy} to {enemy.%{_p}%}
@@ -52,7 +67,7 @@ function quit(p: player):
         delete {enemy.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a sumo match."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a sumo match against %{_p}%."
         toLobby({_enemy})
     toLobby({_p})
     
