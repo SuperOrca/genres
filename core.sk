@@ -119,7 +119,6 @@ command /join <text> [<player=%player%>]:
                 clean(arg-2)
                 set metadata "state" of arg-2 to "straight"
                 cloneWorld("straight", "%arg-2%")
-                wait 5 ticks
                 reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
                     set {_time} to {time.%arg-2%}
@@ -129,19 +128,16 @@ command /join <text> [<player=%player%>]:
                 clean(arg-2)
                 set metadata "state" of arg-2 to "water"
                 cloneWorld("water", "%arg-2%")
-                wait 5 ticks
                 reset_water(arg-2)
             else if arg-1 is "tnt":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "tnt"
                 cloneWorld("tnt", "%arg-2%")
-                wait 5 ticks
                 reset_tnt(arg-2)
             else if arg-1 is "diagonal":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "diagonal"
                 cloneWorld("diag", "%arg-2%")
-                wait 5 ticks
                 reset_diagonal(arg-2)
                 while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}

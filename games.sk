@@ -1,24 +1,24 @@
 function reset_straight(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    teleport {_p} to location(0.5, 3, -20.5, world("%{_p}%"), 0, 0)
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give 256 of red wool to {_p}
 
 function reset_water(p: player):
-    teleport {_p} to location(0.5, 65, 0.5, world("%{_p}%"), -90, 0)
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give {_p} water bucket
 
 function reset_tnt(p: player):
-    teleport {_p} to location(0.5, 5, 0.5, world("%{_p}%"), -90, 0)
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give {_p} tnt
 
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    teleport {_p} to location(0.5, 3, -20.5, world("%{_p}%"), 0, 0)
+    tpWorld({_p}, "%{_p}%")
     clean({_p})
     give 256 of red wool to {_p}
 
