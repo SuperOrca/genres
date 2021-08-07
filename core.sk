@@ -34,6 +34,13 @@ on join:
 on quit:
     quit(player)
 
+on right click:
+    if line 1 of clicked block is "[Game]":
+        set {_game} to line 2 of clicked block
+        make player execute command "join %{_game}%"
+    if line 1 of clicked block is "[Quit]" or "[Leave]":
+        make player execute command "leave"
+
 on flow:
     event-block is water
     cancel event
