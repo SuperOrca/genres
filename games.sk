@@ -1,19 +1,24 @@
 function reset_straight(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    tpWorld({_p}, "%{_p}%")
+    teleport {_p} to location(0.5, 3, -20.5, world("%{_p}%"), 0, 0)
     clean({_p})
     give 256 of red wool to {_p}
 
 function reset_water(p: player):
-    tpWorld({_p}, "%{_p}%")
+    teleport {_p} to location(0.5, 65, 0.5, world("%{_p}%"), -90, 0)
     clean({_p})
     give {_p} water bucket
+
+function reset_tnt(p: player):
+    teleport {_p} to location(0.5, 5, 0.5, world("%{_p}%"), -90, 0)
+    clean({_p})
+    give {_p} tnt
 
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now
     clearBlocks({_p})
-    tpWorld({_p}, "%{_p}%")
+    teleport {_p} to location(0.5, 3, -20.5, world("%{_p}%"), 0, 0)
     clean({_p})
     give 256 of red wool to {_p}
 
@@ -54,7 +59,7 @@ function sumo(p1: player, p2: player):
     cloneWorld("sumo", {_world})
     set {enemy.%{_p1}%} to {_p2}
     set {enemy.%{_p2}%} to {_p1}
-    teleport {_p1} to location(0.5, 3, -5.5, world({_world}))
+    teleport {_p1} to location(0.5, 3, -5.5, world({_world}), 0, 0)
     teleport {_p2} to location(0.5, 3, 6.5, world({_world}), 180, 0)
     set {_p1}'s gamemode to survival
     set {_p2}'s gamemode to survival

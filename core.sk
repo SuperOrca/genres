@@ -9,6 +9,9 @@ on join:
             else if metadata "state" of player is "water":
                 send "&cFailed!"
                 reset_water(player)
+            else if metadata "state" of player is "tnt":
+                send "&cFailed!"
+                reset_tnt(player)
             else if metadata "state" of player is "diagonal":
                 reset_diagonal(player)
             else if metadata "state" of player is "stick":
@@ -35,9 +38,14 @@ on walk on gold block:
     if metadata "state" of player is "water":
         if block at player is water:
             send "&aSucess!"
-            reset_water(player)
         else:
             send "&cFailed!"
+        set block at player to air
+        reset_water(player)
+    if metadata "state" of player is "tnt":
+        set {_dist} to (x-coord of player) - 9
+        send "&aYou made it %{_dist}%&a blocks."
+        reset_tnt(player)
     if metadata "state" of player is "diagonal":
         set {_time} to {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat diagonal bridging in &c%difference between now and {_time}%&7."
@@ -50,6 +58,8 @@ on break:
     if metadata "state" of player is "straight":
         cancel event
     if metadata "state" of player is "water":
+        cancel event
+    if metadata "state" of player is "tnt":
         cancel event
     if metadata "state" of player is "diagonal":
         cancel event
@@ -69,9 +79,10 @@ on place:
     if metadata "state" of player is "water":
         if block below event-block is not gold block:
             cancel event
-    if event-block is tnt:
-        set event-block to air
-        spawn primed tnt at event-block's location
+    if metadata "state" of player is "tnt":
+        if event-block is tnt:
+            set event-block to air
+            spawn primed tnt at event-block's location
 
 on explode:
     cancel event
@@ -87,10 +98,18 @@ on damage:
     if damage cause is tnt:
         cancel event
 
+command /loc <player>:
+    usage: &cUsage: /loc <player>
+    trigger:
+        set {_game} to metadata "state" of arg-1
+        send "&4&lGENRES &8| &c%arg-1%&7 is playing game with id &c%{_game}%&7."
+
 
 command /join <text> [<player=%player%>]:
     aliases: /play
     usage: &cUsage: /join <game> [player]
+    cooldown: 3 seconds
+    cooldown message: &cThis command has a 3 second cooldown.
     trigger:
         if player is not arg-2:
             if player is not op:
@@ -100,6 +119,7 @@ command /join <text> [<player=%player%>]:
                 clean(arg-2)
                 set metadata "state" of arg-2 to "straight"
                 cloneWorld("straight", "%arg-2%")
+                wait 5 ticks
                 reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
                     set {_time} to {time.%arg-2%}
@@ -109,11 +129,19 @@ command /join <text> [<player=%player%>]:
                 clean(arg-2)
                 set metadata "state" of arg-2 to "water"
                 cloneWorld("water", "%arg-2%")
+                wait 5 ticks
                 reset_water(arg-2)
+            else if arg-1 is "tnt":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "tnt"
+                cloneWorld("tnt", "%arg-2%")
+                wait 5 ticks
+                reset_tnt(arg-2)
             else if arg-1 is "diagonal":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "diagonal"
                 cloneWorld("diag", "%arg-2%")
+                wait 5 ticks
                 reset_diagonal(arg-2)
                 while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}
