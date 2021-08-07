@@ -29,6 +29,9 @@ function quit(p: player):
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%")
         delete {time.%{_p}%}
+    if metadata "state" of {_p} is "clutch":
+        delWorld("%{_p}%")
+        delete {time.%{_p}%}
     if metadata "state" of {_p} is "water":
         delWorld("%{_p}%")
     if metadata "state" of {_p} is "tnt":

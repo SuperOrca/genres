@@ -5,6 +5,13 @@ function reset_straight(p: player):
     clean({_p})
     give 256 of red wool to {_p}
 
+function reset_clutch(p: player):
+    set {time.%{_p}%} to now
+    clearBlocks({_p})
+    tpWorld({_p}, "%{_p}%")
+    clean({_p})
+    give 256 of red wool to {_p}
+
 function reset_water(p: player):
     tpWorld({_p}, "%{_p}%")
     clean({_p})

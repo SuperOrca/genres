@@ -5,6 +5,8 @@ on join:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
+            if metadata "state" of player is "clutch":
+                reset_clutch(player)
             else if metadata "state" of player is "water":
                 send "&4&lGENRES &8| &7You &cfailed&7."
                 reset_water(player)
@@ -41,7 +43,7 @@ on tab complete:
 		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
 		set tab completions for position 2 to all scripts
 	if event-string is "/join" or "/play":
-		set tab completions for position 1 to "straight", "water", "tnt", "diagonal", "stick", "peral", and "sumo"
+		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "peral", and "sumo"
 		set tab completions for position 2 to all players
 	if event-string is "/loc":
 		set tab completions for position 1 to all players
@@ -55,6 +57,10 @@ on walk on gold block:
         set {_time} to {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat straight bridging in &c%difference between now and {_time}%&7."
         reset_straight(player)
+    if metadata "state" of player is "clutch":
+        set {_time} to {time.%player%}
+        broadcast "&4&lGENRES &8| &c%player%&7 beat clutch map in &c%difference between now and {_time}%&7."
+        reset_clutch(player)
     if metadata "state" of player is "water":
         if block at player is water:
             send "&4&lGENRES &8| &7You were &asucessful&7."
@@ -77,6 +83,8 @@ on hunger meter change:
 on break:
     if metadata "state" of player is "straight":
         cancel event
+    if metadata "state" of player is "clutch":
+        cancel event
     if metadata "state" of player is "water":
         cancel event
     if metadata "state" of player is "tnt":
@@ -94,6 +102,12 @@ on break:
 on place:
     if metadata "state" of player is "straight":
         add event-block's location to {-cleanup.%player%::*}
+    if metadata "state" of player is "clutch":
+        if y-coord of event-block > 7:
+            cancel event
+            send "&4&lGENRES &8| &7You cannot place blocks here."
+        else:
+            add event-block's location to {-cleanup.%player%::*}
     if metadata "state" of player is "diagonal":
         add event-block's location to {-cleanup.%player%::*}
     if metadata "state" of player is "stick":
@@ -151,6 +165,15 @@ command /join <text> [<player=%player%>]:
                 cloneWorld("straight", "%arg-2%")
                 reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
+                    set {_time} to {time.%arg-2%}
+                    send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
+                    wait 2 ticks
+            if arg-1 is "clutch":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "clutch"
+                cloneWorld("clutch", "%arg-2%")
+                reset_clutch(arg-2)
+                while metadata "state" of arg-2 is "clutch":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
                     wait 2 ticks
