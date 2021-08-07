@@ -7,6 +7,7 @@ on join:
             if metadata "state" of player is "straight":
                 reset_straight(player)
             else if metadata "state" of player is "water":
+                send "&cFailed!"
                 reset_water(player)
             else if metadata "state" of player is "diagonal":
                 reset_diagonal(player)
@@ -32,6 +33,7 @@ on walk on gold block:
         broadcast "&4&lGENRES &8| &c%player%&7 beat straight bridging in &c%difference between now and {_time}%&7."
         reset_straight(player)
     if metadata "state" of player is "water":
+        send "&aSucess!"
         reset_water(player)
     if metadata "state" of player is "diagonal":
         set {_time} to {time.%player%}
