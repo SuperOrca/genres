@@ -202,7 +202,7 @@ command /join <text> [<player=%player%>]:
                 while metadata "state" of arg-2 is "straight":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
-                    wait 2 ticks
+                    wait 10 ticks
             if arg-1 is "clutch":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "clutch"
@@ -211,7 +211,7 @@ command /join <text> [<player=%player%>]:
                 while metadata "state" of arg-2 is "clutch":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
-                    wait 2 ticks
+                    wait 10 ticks
             else if arg-1 is "water":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "water"
@@ -230,7 +230,7 @@ command /join <text> [<player=%player%>]:
                 while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}%" to arg-2
-                    wait 2 ticks
+                    wait 10 ticks
             else if arg-1 is "stick":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "queued"
