@@ -139,7 +139,17 @@ on damage:
         cancel event
     if damage cause is entity explosion:
         heal victim
-    
+
+on world change:
+    world is "world"
+    if metadata "state" of player is "spec":
+        quit(player)
+
+on chat:
+    if event is not canceled:
+        set {_color} to "&7"
+        set {_color} to "&c" if player is op
+        set chat format to "%{_color}%%player%&f: %message%"
 
 command /loc <player>:
     usage: &cUsage: /loc <player>
@@ -235,9 +245,9 @@ command /spectate <player>:
             if inLobby(player) is true:
                 if metadata "state" of arg-1 is not "lobby" or "queued":
                     set metadata "state" of player to "spec"
+                    teleport player to arg-1
                     send "&4&lGENRES &8| &c%player%&7 has started spectating you." to arg-1
                     set player's gamemode to spectator
-                    teleport player to arg-1
                 else:
                     send "&4&lGENRES &8| &c%arg-1%&7 is not in a game."
         else:
