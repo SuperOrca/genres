@@ -8,7 +8,7 @@ function reset_straight(p: player):
 function reset_water(p: player):
     tpWorld({_p}, "%{_p}%")
     clean({_p})
-    give player water bucket
+    give {_p} water bucket
 
 function reset_diagonal(p: player):
     set {time.%{_p}%} to now

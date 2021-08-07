@@ -33,8 +33,11 @@ on walk on gold block:
         broadcast "&4&lGENRES &8| &c%player%&7 beat straight bridging in &c%difference between now and {_time}%&7."
         reset_straight(player)
     if metadata "state" of player is "water":
-        send "&aSucess!"
-        reset_water(player)
+        if block at player is water:
+            send "&aSucess!"
+            reset_water(player)
+        else:
+            send "&cFailed!"
     if metadata "state" of player is "diagonal":
         set {_time} to {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat diagonal bridging in &c%difference between now and {_time}%&7."
@@ -63,17 +66,15 @@ on place:
     if metadata "state" of player is "stick":
         wait 3 seconds
         set event-block to air
+    if metadata "state" of player is "water":
+        if block below event-block is not gold block:
+            cancel event
     if event-block is tnt:
         set event-block to air
         spawn primed tnt at event-block's location
 
 on explode:
     cancel event
-
-on walk on gold block:
-    if block at player is water:
-        set block at player to air
-        reset_water(player)
 
 on damage:
     if damage cause is attack:
@@ -82,9 +83,8 @@ on damage:
         if metadata "state" of victim is "sumo":
             heal victim
     if damage cause is fall:
-        if metadata "state" of victim is not "water":
-            cancel event
-    if damage casue is tnt:
+        cancel event
+    if damage cause is tnt:
         cancel event
 
 
