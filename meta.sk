@@ -9,7 +9,7 @@ function inLobby(p: player) :: boolean:
         return false
 
 function toLobby(p: player):
-    send "&4&lGENRES &8| &7You have left the world!" to {_p}
+    send "&4&lGENRES &8| &7You have left the world." to {_p}
     set metadata "state" of {_p} to "lobby"
     clean({_p})
     tpWorld({_p}, "world")
@@ -17,7 +17,7 @@ function toLobby(p: player):
 
 function quit(p: player):
     if metadata "state" of {_p} is "lobby":
-        send "&4&lGENRES &8| &7You have nowhere else to go!" to {_p}
+        send "&4&lGENRES &8| &7You have nowhere else to go." to {_p}
         exit
     if metadata "state" of {_p} is "queued":
         remove {_p} from {-queue.stick::*}
@@ -26,7 +26,6 @@ function quit(p: player):
         send "&4&lGENRES &8| &7You left the queue." to {_p}
         set metadata "state" of {_p} to "lobby"
         exit
-
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%")
         delete {time.%{_p}%}

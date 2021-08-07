@@ -1,16 +1,15 @@
 on join:
     set metadata "state" of player to "lobby"
-    make console execute command "team join nocol %player%"
     tpWorld(player, "world")
     while player is online:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
             else if metadata "state" of player is "water":
-                send "&cFailed!"
+                send "&4&lGENRES &8| &7You &cfailed&7."
                 reset_water(player)
             else if metadata "state" of player is "tnt":
-                send "&cFailed!"
+                send "&4&lGENRES &8| &7You &cfailed&7."
                 reset_tnt(player)
             else if metadata "state" of player is "diagonal":
                 reset_diagonal(player)
@@ -37,6 +36,20 @@ on flow:
     event-block is water
     cancel event
 
+on tab complete:
+	if event-string is "/skript" or "/sk":
+		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
+		set tab completions for position 2 to all scripts
+	if event-string is "/join" or "/play":
+		set tab completions for position 1 to "straight", "water", "tnt", "diagonal", "stick", "peral", and "sumo"
+		set tab completions for position 2 to all players
+	if event-string is "/loc":
+		set tab completions for position 1 to all players
+	if event-string is "/spectate" or "/spec":
+		set tab completions for position 1 to all players
+	if event-string is "/boop":
+		set tab completions for position 1 to all players
+
 on walk on gold block:
     if metadata "state" of player is "straight":
         set {_time} to {time.%player%}
@@ -44,9 +57,9 @@ on walk on gold block:
         reset_straight(player)
     if metadata "state" of player is "water":
         if block at player is water:
-            send "&aSucess!"
+            send "&4&lGENRES &8| &7You were &asucessful&7."
         else:
-            send "&cFailed!"
+            send "&4&lGENRES &8| &7You &cfailed&7."
         set block at player to air
         reset_water(player)
     if metadata "state" of player is "tnt":
@@ -125,7 +138,7 @@ command /join <text> [<player=%player%>]:
     aliases: /play
     usage: &cUsage: /join <game> [player]
     cooldown: 2 seconds
-    cooldown message: &cThis command has a 3 second cooldown.
+    cooldown message: &cThis command has a 2 second cooldown.
     cooldown bypass: bypass
     trigger:
         if player is not arg-2:
@@ -191,3 +204,28 @@ command /leave [<player=%player%>]:
             if player is not op:
                 send "&4&lGENRES &8| &7You cannot send others to a game."
         quit(arg-1)
+
+command /spectate <player>:
+    aliases: /spec
+    trigger:
+        if player is not arg-1:
+            if inLobby(player) is true:
+                if metadata "state" of arg-1 is not "lobby" or "queued":
+                    set metadata "state" of player to "spec"
+                    send "&4&lGENRES &8| &c%player%&7 has started spectating you." to arg-1
+                    set player's gamemode to spectator
+                    teleport player to arg-1
+                else:
+                    send "&4&lGENRES &8| &c%arg-1%&7 is not in a game."
+        else:
+            send "&4&lGENRES &8| &7You cannot spectate yourself."
+
+command /boop <player>:
+    usage: &cUsage: /boop <player>
+    cooldown: 60 seconds
+    cooldown message: &cThis command has a 60 second cooldown.
+    cooldown bypass: bypass
+    trigger:
+        send "&d&lBOOP! &7You booped &f%arg-1%&7." to player
+        send "&d&lBOOP! &7You were booped by &f%player%&7." to arg-1
+        playSound(arg-1, "block.note_block.pling")

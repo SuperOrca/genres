@@ -1,0 +1,106 @@
+function decimalToHexadecimal(number: number) :: string:
+    return ("00" if {_number} <= 0, else ("FF")) if {_number} is not between 0 and 255
+    return join (character at (mod((floor({_number} / 16)), 16) + 1) in "0123456789ABCDEF") and (character at ((mod({_number}, 16)) + 1) in "0123456789ABCDEF")
+
+function rainbow(input: string, wrapAmount: number = -1, lightness: number = 0.5) :: string:
+    set {_delta} to 360 / ({_wrapAmount} if {_wrapAmount} > 0, else length of {_input})
+    set {_lightnessModifier} to (({_lightness}*2)-1) * 255
+    set {_angle} to 90
+    loop length of {_input} times:
+        set {_character} to character at loop-value in {_input}
+        if {_character} or (character at (loop-value - 1) in {_input}) is "§":
+            if "abcdefklmnor0123456789" contains {_character}:
+                set {_format} to (join {_format} and "&%{_character}%") if {_character} is not "r", else ("")
+            continue
+        set {_output} to join {_output}, "<##%decimalToHexadecimal((0.5 * (sin({_angle}) + 1)) * 255 + {_lightnessModifier})%%decimalToHexadecimal((0.5 * (sin({_angle} + 120) + 1)) * 255 + {_lightnessModifier})%%decimalToHexadecimal((0.5 * (sin({_angle} + 240) + 1)) * 255 + {_lightnessModifier})%>", {_format} and {_character}
+        remove {_delta} from {_angle}
+    return colored {_output}
+
+function gradient(input: string, startColor: numbers, endColor: numbers, wrapAmount: number = -1) :: string:
+    set {_delta} to 180 / ({_wrapAmount} if {_wrapAmount} > 0, else (length of uncolored {_input}) - 1)
+    set {_angle} to 90 
+    loop length of {_input} times:
+        set {_character} to character at loop-value in {_input}
+        if {_character} or (character at (loop-value - 1) in {_input}) is "§":
+            if "abcdefklmnor0123456789" contains {_character}:
+                set {_format} to (join {_format} and "&%{_character}%") if {_character} is not "r", else ("")
+            continue
+        set {_startColorProportion} to (0.5 * (sin({_angle}) + 1))
+        set {_endColorProportion} to (0.5 * (sin({_angle} + 180) + 1))
+        set {_output} to join {_output}, "<##%decimalToHexadecimal(({_startColor::1} * {_startColorProportion}) + ({_endColor::1} * {_endColorProportion}))%%decimalToHexadecimal(({_startColor::2} * {_startColorProportion}) + ({_endColor::2} * {_endColorProportion}))%%decimalToHexadecimal(({_startColor::3} * {_startColorProportion}) + ({_endColor::3} * {_endColorProportion}))%>", {_format} and {_character}
+        add {_delta} to {_angle}
+    return colored {_output}
+
+function playSound(p: player, sound: text):
+	play sound "%{_sound}%" with volume 10 to {_p}
+
+function allSound(sound: text):
+	play sound "%{_sound}%" with volume 10 to all players
+
+# function insertComma(n: number) :: string:
+# 	return regex replace "(?<=\d)(?=(\d\d\d)+(?!\d))" with "," in "%{_n}%"
+
+function formatNumber(n: number) :: string:
+	set {_l::*} to split "k|M|B|T|Q|QT" at "|"
+	set {_i} to min(floor(log({_n})/3), size of {_l::*})
+	return "%{_n}%" if {_i} <= 0
+	set {_i2} to 1000^{_i}
+	return "%{_n}/{_i2}%%{_l::%{_i}%}%"
+
+function sort(indices: strings, values: numbers, descending: boolean = true) :: strings:
+	loop {_indices::*}:
+		set {_sort::%{_values::%loop-index%}%.%loop-index%} to loop-value
+	return (reversed {_sort::*}) if {_descending} is true, else {_sort::*}
+
+function formatTime(time: text) :: timespan:
+	set {_def} to {_time}
+	loop {_time} split at ",":
+		set {_char} to loop-value
+		replace "s" in {_char} with " seconds" if {_def} contains "s"
+		replace "m" in {_char} with " minutes" if {_def} contains "m"
+		replace "h" in {_char} with " hours" if {_def} contains "h"
+		replace "d" in {_char} with " days" if {_def} contains "d"
+		replace "w" in {_char} with " weeks" if {_def} contains "w"
+		replace "mo" in {_char} with " months" if {_def} contains "mo"
+		add {_char} parsed as a timespan to {_total}
+	return {_total} ? 0 seconds
+
+# function fillSlots(p: player, size: number):
+# 	format gui slot (numbers between 0 and ({_size}*9)) of {_p} with black stained glass pane named "<##f78181>"
+
+function fancyTime(time: timespan) :: string:
+	set {_time} to "%{_time}%"
+	replace " seconds" in {_time} with "s"
+	replace " second" in {_time} with "s"
+	replace " minutes" in {_time} with "m"
+	replace " minute" in {_time} with "m"
+	replace " hours" in {_time} with "h"
+	replace " hour" in {_time} with "h"
+	replace " days" in {_time} with "d"
+	replace " day" in {_time} with "d"
+	replace " weeks" in {_time} with "w"
+	replace " week" in {_time} with "w"
+	replace " months" in {_time} with "mo"
+	replace " month" in {_time} with "mo"
+	replace " and" in {_time} with ""
+	return {_time}
+
+function emojify(input: text) :: text:
+	replace all "<3" with "❤" in {_input} if {_input} contains "<3"
+	replace all "->" with "⟶" in {_input} if {_input} contains "->"
+	replace all "<-" with "⟵" in {_input} if {_input} contains "<-"
+	replace all ":)" or "(:" with "☻" in {_input} if {_input} contains ":)" or "(:"
+	return {_input}
+
+function scramble(s: text) :: text:
+	set {_string::*} to {_s} split at ""
+	set {_scrambled::*} to shuffled {_string::*}
+	return join {_string::*} by ""
+
+function progressBar(val: number, max: number, barsize: number, fill_first: text, fill_second: text) :: text:
+	stop if {_val} < 0
+	stop if {_max} < 0
+	stop if {_barsize} < 1
+	loop {_barsize} times:
+		set {_bar} to "%{_bar} ? """"%|"
+	return "%{_fill_first}%%((first floor({_barsize} * ({_val}/{_max})) characters of {_bar}) ? """")%%{_fill_second}%%(last {_barsize} - floor({_barsize} * ({_val}/{_max})) characters of {_bar}) ? """"%"
