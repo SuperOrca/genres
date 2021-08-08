@@ -129,6 +129,7 @@ function clean(p: player):
 
 function updateScoreboard(p: player):
     set {_u} to {_p}'s uuid
+    set title of scoreboard of player to "&4&lGENRES&7&o (%number of players%)"
     set line 15 of scoreboard of {_p} to "&8&m----------------"
     set line 14 of scoreboard of {_p} to "&7Wins: &f%{wins::%{_u}%} ? 0%"
     set line 13 of scoreboard of {_p} to "&7Losses: &f%{losses::%{_u}%} ? 0%"
