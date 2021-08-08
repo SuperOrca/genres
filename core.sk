@@ -1,9 +1,10 @@
 on join:
-    set join message to "&3%player%&3 joined."
+    set join message to ""
     wait 1 tick
     stop if player is not online
+    broadcast "&3%player%&3 joined."
     set metadata "state" of player to "lobby"
-    clean(player)
+    quit(player)
     while player is online:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
@@ -32,12 +33,12 @@ on join:
                     quit(player)
             else if metadata "state" of player is "sumo":
                 quit(player)
+            else if metadata "state" of player is "bedwars":
+                reset_bedwars(player)
         wait 1 second
 
 on quit:
     set quit message to "&3%player%&3 quit."
-
-on quit:
     quit(player)
 
 on right click:
@@ -56,7 +57,7 @@ on tab complete:
 		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
 		set tab completions for position 2 to all scripts
 	if event-string is "/join" or "/play":
-		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "pearl", "sumo", and "classic"
+		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "pearl", "sumo", "classic", and "bedwars"
 		set tab completions for position 2 to all players
 	if event-string is "/loc":
 		set tab completions for position 1 to all players
@@ -112,6 +113,16 @@ on break:
         cancel event
     if metadata "state" of player is "classic":
         cancel event
+    if metadata "state" of player is "bedwars":
+        if event-block is sandstone:
+            stop
+        if event-block is any bed:
+            if event-block is {block.%player%}:
+                quit(player)
+            else:
+                cancel event
+        else:
+            cancel event
 	
 
 on place:
@@ -139,11 +150,16 @@ on place:
     if metadata "state" of player is "pearl":
         wait 3 seconds
         set event-block to air
+    if metadata "state" of player is "bedwars":
+        if y-coord of event-block > 14:
+            cancel event
+            send "&4&lGENRES &8| &7You cannot place blocks here."
 
 on explode:
     cancel event
 
 on damage:
+    stop if damage cause is void
     if damage cause is attack:
         if metadata "state" of victim is "stick":
             heal victim
@@ -155,8 +171,14 @@ on damage:
                 quit(victim)
         if metadata "state" of victim is "pearl":
             heal victim
-    if damage cause is fall:
-        cancel event
+    if metadata "state" of victim is "bedwars":
+        if final damage >= victim's health:
+            cancel event
+            reset_bedwars(victim)
+            stop
+    else:
+        if damage cause is fall:
+            cancel event
     if damage cause is entity explosion:
         cancel event
         push victim upwards at speed 1
@@ -174,6 +196,9 @@ on chat:
         set chat format to "%{_color}%%player%&f: %message%"
 
 on drop:
+    cancel event
+
+on item damage:
     cancel event
 
 command /loc <player>:
@@ -259,6 +284,13 @@ command /join <text> [<player=%player%>]:
                 add arg-2 to {-queue.classic::*}
                 if (size of {-queue.classic::*}) > 1:
                     classic({-queue.classic::1}, {-queue.classic::2})
+            else if arg-1 is "bedwars":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "queued"
+                send "&4&lGENRES &8| &7Joined queue for &cbedwars&7." to arg-2 
+                add arg-2 to {-queue.bedwars::*}
+                if (size of {-queue.bedwars::*}) > 1:
+                    bedwars({-queue.bedwars::1}, {-queue.bedwars::2})
             else:
                 send "&cDid not recognize gamemode."
                 

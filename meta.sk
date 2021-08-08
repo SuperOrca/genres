@@ -24,6 +24,7 @@ function quit(p: player):
         remove {_p} from {-queue.pearl::*}
         remove {_p} from {-queue.sumo::*}
         remove {_p} from {-queue.classic::*}
+        remove {_p} from {-queue.bedwars::*}
         send "&4&lGENRES &8| &7You left the queue." to {_p}
         set metadata "state" of {_p} to "lobby"
         exit
@@ -80,6 +81,18 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a classic match against &c%{_p}%."
         toLobby({_enemy})
+    if metadata "state" of {_p} is "bedwars":
+        set {_enemy} to {enemy.%{_p}%}
+        delete {enemy.%{_p}%}
+        delete {enemy.%{_enemy}%}
+        delete {loc.%{_p}%}
+        delete {loc.%{_enemy}%}
+        delete {block.%{_p}%}
+        delete {block.%{_enemy}%}
+        if "%{_p}'s world%" contains "%{_p}%":
+            delWorld("%{_p}'s world%")
+        broadcast "&4&lGENRES &8| &c%{_p}%&7 won a bedwars match against &c%{_enemy}%."
+        toLobby({_enemy})
     toLobby({_p})
     
 
@@ -93,3 +106,12 @@ function safeTeleport(p: player, l: location):
     set block at {_l} to air
     set block above block at {_l} to air
     teleport {_p} to {_l}
+
+function clean(p: player):
+    clear {_p}'s inventory
+    set {_p}'s helmet to air
+    set {_p}'s chestplate to air
+    set {_p}'s leggings to air
+    set {_p}'s boots to air
+    heal {_p}
+    feed {_p}

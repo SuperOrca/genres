@@ -127,3 +127,32 @@ function classic(p1: player, p2: player):
     teleport {_p2} to location(0.5, 65, -18.5, world({_world}), 0, 0)
     set {_p1}'s gamemode to survival
     set {_p2}'s gamemode to survival
+
+function reset_bedwars(p: player):
+    teleport {_p} to {loc.%{_p}%}
+    clean({_p})
+    give {_p} stick of knockback 1
+    give 128 of sandstone to {_p}
+    set slot 8 of {_p} to diamond pickaxe of efficiency 2
+
+function bedwars(p1: player, p2: player):
+    set metadata "state" of {_p1} to "bedwars"
+    set metadata "state" of {_p2} to "bedwars"
+    remove {_p1} from {-queue.bedwars::*}
+    remove {_p2} from {-queue.bedwars::*}
+    set {_world} to "%{_p1}%_%{_p2}%"
+    cloneWorld("bedwars", {_world})
+    tpWorld({_p1}, {_world})
+    tpWorld({_p2}, {_world})
+    set {block.%{_p1}%} to blue bed
+    set {block.%{_p2}%} to red bed
+    set {enemy.%{_p1}%} to {_p2}
+    set {enemy.%{_p2}%} to {_p1}
+    set {loc.%{_p1}%} to location(-20.5, 5, 0.5, world({_world}), -90, 0)
+    set {loc.%{_p2}%} to location(21.5, 5, 0.5, world({_world}), 90, 0)
+    reset_bedwars({_p1})
+    reset_bedwars({_p2})
+    teleport {_p1} to {loc.%{_p1}%}
+    teleport {_p2} to {loc.%{_p2}%}
+    set {_p1}'s gamemode to survival
+    set {_p2}'s gamemode to survival
