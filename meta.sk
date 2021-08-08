@@ -117,8 +117,12 @@ function clean(p: player):
     feed {_p}
 
 function updateScoreboard(p: player):
-    set line 15 of scoreboard of {_p} to "&8&m----------------"
-    set line 14 of scoreboard of {_p} to "&7Online: &c%size of all players%"
-    set line 13 of scoreboard of {_p} to ""
-    set line 12 of scoreboard of {_p} to "&7&ogenres.minehut.gg"
-    set line 11 of scoreboard of {_p} to "&8&m----------------"
+    set line 16 of scoreboard of {_p} to "&8&m----------------"
+    set line 15 of scoreboard of {_p} to "&7Online: &c%size of all players%"
+    set line 14 of scoreboard of {_p} to "&7Wins:   &f%{wins::%player%}%"
+    set line 13 of scoreboard of {_p} to "&7Losses: &f%{losses::%player%}%"
+    set line 12 of scoreboard of {_p} to "&7W/L: &f%{wins::%player%}%/%{losses::%player%}%"
+    set line 11 of scoreboard of {_p} to "                                                "
+    set line 10 of scoreboard of {_p} to "&7KDR: &f%{kills::%player%}%/%{deaths::%player%}%"
+    set line 9 of scoreboard of {_p} to "&7&ogenres.minehut.gg"
+    set line 8 of scoreboard of {_p} to "&8&m----------------"
