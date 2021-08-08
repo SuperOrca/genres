@@ -2,10 +2,10 @@ function inLobby(p: player) :: boolean:
     if metadata "state" of {_p} is "lobby":
         return true
     else if metadata "state" of {_p} is "queued":
-        send "&4&lGENRES &8| &7You are unable to do this because you are in queue." to {_p}
+        send "&4&lGENRES &8| &7You are unable to do this because you are in queue. Use /leave to leave the queue." to {_p}
         return false
     else:
-        send "&4&lGENRES &8| &7You are unable to do this because you are already in a game." to {_p}
+        send "&4&lGENRES &8| &7You are unable to do this because you are already in a game. Use /leave to leave the game." to {_p}
         return false
 
 function toLobby(p: player):
