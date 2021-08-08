@@ -15,8 +15,13 @@ function toLobby(p: player):
     tpWorld({_p}, "spawn")
     set {_p}'s gamemode to survival
 
+function addWinLoss(winner: player, loser: player):
+    set {_wu} to {_winner}'s uuid
+    set {_lu} to {_loser}'s uuid
+    add 1 to {wins::%{_wu}%}
+    add 1 to {wins::%{_lu}%}
+
 function quit(p: player):
-    set {_u} to {_p}'s uuid
     if metadata "state" of {_p} is "lobby":
         send "&4&lGENRES &8| &7You have nowhere else to go." to {_p}
         exit
@@ -54,9 +59,7 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a stick match against &c%{_p}%."
         toLobby({_enemy})
-        add 1 to {losses::%{_u}%}
-        set {_eu} to {_enemy}'s uuid
-        add 1 to {wins::%{_eu}%}
+        addWinLoss({_enemy}, {_p})
     if metadata "state" of {_p} is "pearl":
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
@@ -69,9 +72,7 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a pearl match against &c%{_p}%."
         toLobby({_enemy})
-        add 1 to {losses::%{_u}%}
-        set {_eu} to {_enemy}'s uuid
-        add 1 to {wins::%{_eu}%}
+        addWinLoss({_enemy}, {_p})
     if metadata "state" of {_p} is "sumo":
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
@@ -80,9 +81,7 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a sumo match against &c%{_p}%."
         toLobby({_enemy})
-        add 1 to {losses::%{_u}%}
-        set {_eu} to {_enemy}'s uuid
-        add 1 to {wins::%{_eu}%}
+        addWinLoss({_enemy}, {_p})
     if metadata "state" of {_p} is "classic":
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
@@ -91,9 +90,7 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a classic match against &c%{_p}%."
         toLobby({_enemy})
-        add 1 to {losses::%{_u}%}
-        set {_eu} to {_enemy}'s uuid
-        add 1 to {wins::%{_eu}%}
+        addWinLoss({_enemy}, {_p})
     if metadata "state" of {_p} is "bedwars":
         set {_enemy} to {enemy.%{_p}%}
         delete {enemy.%{_p}%}
@@ -106,9 +103,7 @@ function quit(p: player):
             delWorld("%{_p}'s world%")
         broadcast "&4&lGENRES &8| &c%{_p}%&7 won a bedwars match against &c%{_enemy}%."
         toLobby({_enemy})
-        add 1 to {wins::%{_u}%}
-        set {_eu} to {_enemy}'s uuid
-        add 1 to {losses::%{_eu}%}
+        addWinLoss({_p}, {_enemy})
     toLobby({_p})
     
 
@@ -150,4 +145,3 @@ function check_personal(p: player, m: text, t: timespan):
     if {%{_m}%::%{_u}%} > {_t}:
         set {%{_m}%::%{_u}%} to {_t}
         send "&6&lPERSONAL BEST!" to {_p}
-        
