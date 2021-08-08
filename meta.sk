@@ -141,3 +141,13 @@ function updateScoreboard(p: player):
     set line 11 of scoreboard of {_p} to ""
     set line 10 of scoreboard of {_p} to "&7&ogenres.minehut.gg"
     set line 9 of scoreboard of {_p} to "&8&m----------------"
+
+function check_personal(p: player, m: text, t: timespan):
+    set {_u} to {_p}'s uuid
+    if {%{_m}%::%{_u}%} is not set:
+        set {%{_m}%::%{_u}%} to {_t}
+        send "&6&lPERSONAL BEST!" to {_p}
+    if {%{_m}%::%{_u}%} > {_t}:
+        set {%{_m}%::%{_u}%} to {_t}
+        send "&6&lPERSONAL BEST!" to {_p}
+        

@@ -79,16 +79,12 @@ on walk on gold block:
         set {_time} to difference between now and {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat straight bridging in &c%{_time}%&7."
         reset_straight(player)
-        if {straight::%player's uuid%} > {_time}:
-            set {straight::%player's uuid%} to {_time}
-            send "&6&lPERSONAL BEST!"
+        check_personal(player, "straight", {_time})
     if metadata "state" of player is "clutch":
         set {_time} to difference between now and {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat clutch map in &c%{_time}%&7."
         reset_clutch(player)
-        if {clutch::%player's uuid%} > {_time}:
-            set {clutch::%player's uuid%} to {_time}
-            send "&6&lPERSONAL BEST!"
+        check_personal(player, "clutch", {_time})
     if metadata "state" of player is "water":
         if block at player is water:
             send "&4&lGENRES &8| &7You were &asucessful&7."
@@ -104,9 +100,7 @@ on walk on gold block:
         set {_time} to difference between now and {time.%player%}
         broadcast "&4&lGENRES &8| &c%player%&7 beat diagonal bridging in &c%{_time}%&7."
         reset_diagonal(player)
-        if {diagonal::%player's uuid%} > {_time}:
-            set {diagonal::%player's uuid%} to {_time}
-            send "&6&lPERSONAL BEST!"
+        check_personal(player, "diagonal", {_time})
 
 on hunger meter change:
     cancel event
@@ -241,7 +235,7 @@ command /join <text> [<player=%player%>]:
                 reset_straight(arg-2)
                 while metadata "state" of arg-2 is "straight":
                     set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{straight::%arg-2's uuid%}%" to arg-2
+                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{straight::%arg-2's uuid%} ? ""NaN""%" to arg-2
                     wait 10 ticks
             if arg-1 is "clutch":
                 clean(arg-2)
@@ -250,7 +244,7 @@ command /join <text> [<player=%player%>]:
                 reset_clutch(arg-2)
                 while metadata "state" of arg-2 is "clutch":
                     set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{clutch::%arg-2's uuid%}%" to arg-2
+                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{clutch::%arg-2's uuid%} ? ""NaN""%" to arg-2
                     wait 10 ticks
             else if arg-1 is "water":
                 clean(arg-2)
@@ -269,7 +263,7 @@ command /join <text> [<player=%player%>]:
                 reset_diagonal(arg-2)
                 while metadata "state" of arg-2 is "diagonal":
                     set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{diagonal::%arg-2's uuid%}%" to arg-2
+                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{diagonal::%arg-2's uuid%} ? ""NaN""%" to arg-2
                     wait 10 ticks
             else if arg-1 is "stick":
                 clean(arg-2)
