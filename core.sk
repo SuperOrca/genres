@@ -129,7 +129,7 @@ on break:
             stop
         if event-block is any bed:
             if event-block is {block.%player%}:
-                quit({enemy.%player%}})
+                quit({enemy.%player%})
             else:
                 cancel event
         else:
