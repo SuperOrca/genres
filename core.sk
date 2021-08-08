@@ -194,7 +194,7 @@ on chat:
     if event is not canceled:
         set {_color} to "&7"
         set {_color} to "&c" if player is op
-        set chat format to "%player's nickname%&f: %message%"
+        set chat format to "%player's display name%&f: %message%"
 
 on drop:
     cancel event
@@ -349,3 +349,6 @@ command /broadcast <text>:
     usage: &cUsage: /broadcast <message>
     trigger:
         broadcast "&4&lGENRES &8| &f%arg-1%"
+
+every 5 minutes:
+    make console execute command "broadcast Remember to join our discord using /discord."
