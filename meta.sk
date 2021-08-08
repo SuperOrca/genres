@@ -117,12 +117,14 @@ function clean(p: player):
     feed {_p}
 
 function updateScoreboard(p: player):
-    set line 16 of scoreboard of {_p} to "&8&m----------------"
-    set line 15 of scoreboard of {_p} to "&7Online: &c%size of all players%"
-    set line 14 of scoreboard of {_p} to "&7Wins:   &f%{wins::%{_p}%}%"
+    set line 15 of scoreboard of {_p} to "&8&m----------------"
+    set line 14 of scoreboard of {_p} to "&7Wins: &f%{wins::%{_p}%}%"
     set line 13 of scoreboard of {_p} to "&7Losses: &f%{losses::%{_p}%}%"
     set line 12 of scoreboard of {_p} to "&7W/L: &f%{wins::%{_p}%}/{losses::%{_p}%}%"
     set line 11 of scoreboard of {_p} to ""
-    set line 10 of scoreboard of {_p} to "&7KDR: &f%{kills::%{_p}%}/{deaths::%{_p}%}%"
-    set line 9 of scoreboard of {_p} to "&7&ogenres.minehut.gg"
-    set line 8 of scoreboard of {_p} to "&8&m----------------"
+    set line 10 of scoreboard of {_p} to "&7Kills: &f%{kills::%{_p}%}%"
+    set line 9 of scoreboard of {_p} to "&7Deaths: &f%{deaths::%{_p}%}%"   
+    set line 8 of scoreboard of {_p} to "&7KDR: &f%{kills::%{_p}%}/{deaths::%{_p}%}%"
+    set line 7 of scoreboard of {_p} to ""
+    set line 6 of scoreboard of {_p} to "&7&ogenres.minehut.gg"
+    set line 5 of scoreboard of {_p} to "&8&m----------------"

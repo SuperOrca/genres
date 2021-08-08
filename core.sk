@@ -6,7 +6,7 @@ on join:
     set metadata "state" of player to "lobby"
     quit(player)
     toggle scoreboard of player to on
-    set title of scoreboard of player to "&4&lGENRES"
+    set title of scoreboard of player to "&4&lGENRES&7&o (%number of players%)"
     while player is online:
         updateScoreboard(player)
         if y-coord of player < 1:
