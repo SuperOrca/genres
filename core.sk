@@ -338,3 +338,12 @@ command /discord:
     trigger:
         send "&4&lGENRES &8| &7Click &c<link:https://discord.gg/NxsBMWKWuh>here<reset>&7 to join our discord."
         playSound(player, "block.note_block.pling")
+
+#BROADCAST COMMAND
+
+command /broadcast <text>:
+  permission: op
+  permission message: &cNo Permission.
+  aliases: /bc
+  trigger:
+    broadcast "&4&lGENRES &8| &f%arg-1%"
