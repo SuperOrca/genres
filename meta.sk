@@ -12,7 +12,7 @@ function toLobby(p: player):
     send "&4&lGENRES &8| &7You have left the world." to {_p}
     set metadata "state" of {_p} to "lobby"
     clean({_p})
-    tpWorld({_p}, "world")
+    tpWorld({_p}, "spawn")
     set {_p}'s gamemode to survival
 
 function quit(p: player):
@@ -115,3 +115,8 @@ function clean(p: player):
     set {_p}'s boots to air
     heal {_p}
     feed {_p}
+
+function updateScoreboard(p: player):
+    set line 15 of scoreboard of {_p} to "&8&m----------"
+    set line 14 of scoreboard of {_p} to "&7Online: &c%size of all players%"
+    set line 13 of scoreboard of {_p} to "&8&m----------"

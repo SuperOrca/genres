@@ -5,7 +5,10 @@ on join:
     broadcast "&3%player%&3 joined."
     set metadata "state" of player to "lobby"
     quit(player)
+    toggle scoreboard of player to on
+    set title of scoreboard of player to "&4&lGENRES"
     while player is online:
+        updateScoreboard(player)
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
@@ -183,7 +186,7 @@ on damage:
         push victim forwards at speed 1
 
 on world change:
-    world is "world"
+    world is "spawn"
     if metadata "state" of player is "spec":
         quit(player)
 
