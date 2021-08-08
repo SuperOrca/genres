@@ -333,7 +333,7 @@ command /staffchat <text>:
     permission message: &cNo Permission.
     trigger:
         send "&4&lSTAFF &8| &7%player%&f: %arg-1%" to all players where [input has permission "staff"]
-
+#sends the player the discord link
 command /discord:
     trigger:
         send "&4&lGENRES &8| &7Click &c<link:https://discord.gg/NxsBMWKWuh>here<reset>&7 to join our discord."
