@@ -19,7 +19,7 @@ function addWinLoss(winner: player, loser: player):
     set {_wu} to {_winner}'s uuid
     set {_lu} to {_loser}'s uuid
     add 1 to {wins::%{_wu}%}
-    add 1 to {wins::%{_lu}%}
+    add 1 to {losses::%{_lu}%}
 
 function quit(p: player):
     if metadata "state" of {_p} is "lobby":
