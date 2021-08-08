@@ -101,9 +101,9 @@ function quit(p: player):
         delete {block.%{_enemy}%}
         if "%{_p}'s world%" contains "%{_p}%":
             delWorld("%{_p}'s world%")
-        broadcast "&4&lGENRES &8| &c%{_p}%&7 won a bedwars match against &c%{_enemy}%."
+        broadcast "&4&lGENRES &8| &c%{_enemy}%&7 won a bedwars match against &c%{_p}%."
         toLobby({_enemy})
-        addWinLoss({_p}, {_enemy})
+        addWinLoss({_enemy}, {_p})
     toLobby({_p})
     
 
