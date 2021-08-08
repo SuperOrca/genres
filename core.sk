@@ -167,7 +167,9 @@ on place:
             send "&4&lGENRES &8| &7You cannot place blocks here."
 
 on explode:
-    cancel event
+    if metadata "state" of player is "tnt" or "lobby":
+        cancel event
+
 
 on damage:
     stop if damage cause is void
@@ -203,7 +205,8 @@ on chat:
         set {_color} to "&7"
         set {_color} to "&c" if player is op
         set chat format to "%player's display name%&f: %message%"
-
+        if player is not op:
+            set chat format to "%player's display name%&7: %message%"
 on drop:
     cancel event
 
@@ -356,7 +359,7 @@ command /broadcast <text>:
     aliases: /bc
     usage: &cUsage: /broadcast <message>
     trigger:
-        broadcast "&4&lGENRES &8| &f%arg-1%"
+        broadcast "&4&lGENRES &8| &7%arg-1%"
 
 every 5 minutes:
     make console execute command "broadcast Remember to join our discord using /discord."
