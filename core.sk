@@ -29,6 +29,7 @@ on join:
             else if metadata "state" of player is "pearl":
                 clean(player)
                 give_pearl(player)
+                kill ender pearls in player's world
                 safeTeleport(player, {loc.%player%})
                 remove 1 from {lives.%player%}
                 if {lives.%player%} < 1:
