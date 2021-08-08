@@ -167,8 +167,8 @@ on place:
             send "&4&lGENRES &8| &7You cannot place blocks here."
 
 on explode:
-    if metadata "state" of player is "tnt" or "lobby":
-        cancel event
+       if entity is primed tnt:
+              cancel event
 
 
 on damage:
