@@ -129,7 +129,7 @@ function classic(p1: player, p2: player):
     set {_p2}'s gamemode to survival
 
 function reset_bedwars(p: player):
-    teleport {_p} to {loc.%{_p}%}
+    safeTeleport({_p}, {loc.%{_p}%})
     clean({_p})
     give {_p} stick of knockback 1
     give 128 of sandstone to {_p}

@@ -165,20 +165,18 @@ on damage:
             heal victim
         if metadata "state" of victim is "sumo":
             heal victim
-        if metadata "state" of victim is "classic":
+        if metadata "state" of victim is "bedwars":
             if final damage >= victim's health:
                 cancel event
-                quit(victim)
+                reset_bedwars(victim)
         if metadata "state" of victim is "pearl":
             heal victim
-    if metadata "state" of victim is "bedwars":
+    if metadata "state" of victim is "classic":
         if final damage >= victim's health:
             cancel event
-            reset_bedwars(victim)
-            stop
-    else:
-        if damage cause is fall:
-            cancel event
+            quit(victim)
+    if damage cause is fall:
+        cancel event
     if damage cause is entity explosion:
         cancel event
         push victim upwards at speed 1
@@ -275,7 +273,7 @@ command /join <text> [<player=%player%>]:
                 set metadata "state" of arg-2 to "queued"
                 send "&4&lGENRES &8| &7Joined queue for &csumo&7." to arg-2 
                 add arg-2 to {-queue.sumo::*}
-                if (size of {-queue.sumo::*}) > 2:
+                if (size of {-queue.sumo::*}) > 1:
                     sumo({-queue.sumo::1}, {-queue.sumo::2})
             else if arg-1 is "classic":
                 clean(arg-2)
@@ -333,17 +331,18 @@ command /staffchat <text>:
     permission message: &cNo Permission.
     trigger:
         send "&4&lSTAFF &8| &7%player%&f: %arg-1%" to all players where [input has permission "staff"]
+
 #sends the player the discord link
 command /discord:
     trigger:
         send "&4&lGENRES &8| &7Click &c<link:https://discord.gg/NxsBMWKWuh>here<reset>&7 to join our discord."
         playSound(player, "block.note_block.pling")
 
-#BROADCAST COMMAND
-
+#broadcast a message to the server
 command /broadcast <text>:
-  permission: op
-  permission message: &cNo Permission.
-  aliases: /bc
-  trigger:
-    broadcast "&4&lGENRES &8| &f%arg-1%"
+    permission: op
+    permission message: &cNo Permission.
+    aliases: /bc
+    usage: &cUsage: /broadcast <message>
+    trigger:
+        broadcast "&4&lGENRES &8| &f%arg-1%"
