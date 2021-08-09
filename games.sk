@@ -103,10 +103,10 @@ function sumo(p1: player, p2: player):
     set {_p2}'s gamemode to survival
 
 function give_classic(p: player):
-    equip {_p} with iron helmet
-    equip {_p} with iron chestplate
-    equip {_p} with iron leggings
-    equip {_p} with iron boots
+    equip {_p} with iron helmet of protection 1
+    equip {_p} with iron chestplate of protection 1
+    equip {_p} with iron leggings of protection 1
+    equip {_p} with iron boots of protection 1
     give {_p} iron sword
     give {_p} fishing rod
     give {_p} bow
