@@ -39,7 +39,7 @@ on join:
             else if metadata "state" of player is "bedwars":
                 reset_bedwars(player)
             else if metadata "state" of player is "lobby":
-                teleport player to location(0.5, 66, 0.5, world)
+                tpWorld(player, "spawn")
         wait 1 second
 
 

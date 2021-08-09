@@ -1,0 +1,59 @@
+function randomParkour(l: location) :: location:
+    set {_r} to random integer between 1 and 24
+    if {_r} is 1:
+        return {_l} ~ vector(0, 1, 3)
+    if {_r} is 2:
+        return {_l} ~ vector(0, 1, -3)
+    if {_r} is 3:
+        return {_l} ~ vector(3, 1, 0)
+    if {_r} is 4:
+        return {_l} ~ vector(-3, 1, 0)
+    if {_r} is 5:
+        return {_l} ~ vector(0, 1, 4)
+    if {_r} is 6:
+        return {_l} ~ vector(0, 1, -4)
+    if {_r} is 7:
+        return {_l} ~ vector(4, 1, 0)
+    if {_r} is 8:
+        return {_l} ~ vector(-4, 1, 0)
+    if {_r} is 9:
+        return {_l} ~ vector(0, -1, 3)
+    if {_r} is 10:
+        return {_l} ~ vector(0, -1, -3)
+    if {_r} is 11:
+        return {_l} ~ vector(3, -1, 0)
+    if {_r} is 12:
+        return {_l} ~ vector(-3, -1, 0)
+    if {_r} is 13:
+        return {_l} ~ vector(0, -1, 4)
+    if {_r} is 14:
+        return {_l} ~ vector(0, -1, -4)
+    if {_r} is 15:
+        return {_l} ~ vector(4, -1, 0)
+    if {_r} is 16:
+        return {_l} ~ vector(-4, -1, 0)
+    if {_r} is 17:
+        return {_l} ~ vector(0, 0, 3)
+    if {_r} is 18:
+        return {_l} ~ vector(0, 0, -3)
+    if {_r} is 19:
+        return {_l} ~ vector(3, 0, 0)
+    if {_r} is 20:
+        return {_l} ~ vector(-3, 0, 0)
+    if {_r} is 21:
+        return {_l} ~ vector(0, 0, 4)
+    if {_r} is 22:
+        return {_l} ~ vector(0, 0, -4)
+    if {_r} is 23:
+        return {_l} ~ vector(4, 0, 0)
+    if {_r} is 24:
+        return {_l} ~ vector(-4, 0, 0)
+
+on walk on acacia log:
+    player's world is "parkour"
+    location of block below player is ({-next} ? location of block below player)
+    set {_loc} to randomParkour(location of block below player)
+    set block at {_loc} to acacia log
+    set block at {-previous} to air
+    set {-previous} to location of block below player
+    set {-next} to {_loc}
