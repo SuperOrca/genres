@@ -156,3 +156,33 @@ function bedwars(p1: player, p2: player):
     teleport {_p2} to {loc.%{_p2}%}
     set {_p1}'s gamemode to survival
     set {_p2}'s gamemode to survival
+
+function reset_bridge(p: player):
+    send title colored "&a➄" to {_p}
+    play sound "block.note_block.pling" to {_p}
+    wait 1 second
+    send title colored "&a➃" to {_p}
+    play sound "block.note_block.pling" with pitch .9 to {_p} 
+    wait 1 second
+    send title colored "&a➂" to {_p}
+    play sound "block.note_block.pling" with pitch .8 to {_p}
+    wait 1 second
+    send title colored "&e➁" to {_p}
+    play sound "block.note_block.pling" with pitch .7 to {_p}
+    wait 1 second
+    send title colored "&c➀" to {_p}
+    play sound "block.note_block.pling" with pitch .6 to {_p}
+    wait 1 second
+    send title colored "" to {_p}
+
+
+
+function items_bridge(p: player):
+    give {_p} iron sword 
+    give {_p} diamond pickaxe of efficiency 1
+    give {_p} bow
+    give 128 of red terracotta to {_p}
+    give 8 of golden apple to {_p}
+
+
+
