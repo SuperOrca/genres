@@ -364,6 +364,8 @@ command /broadcast <text>:
     usage: &cUsage: /broadcast <message>
     trigger:
         broadcast "&4&lGENRES &8| &7%arg-1%"
+        play sound "block.note_block.pling" to players
+        send title colored "&cAnnouncement in chat"
 
 every 5 minutes:
     make console execute command "broadcast Remember to join our discord using /discord."
