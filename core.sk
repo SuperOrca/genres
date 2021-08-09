@@ -132,6 +132,7 @@ on break:
             stop
         if event-block is any bed:
             if event-block is {block.%player%}:
+                wait 1 tick
                 quit({enemy.%player%})
             else:
                 cancel event
