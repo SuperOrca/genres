@@ -9,7 +9,10 @@ function parkour(p: player):
     delete {jumps.%{_p}%}
     set block at {next.%{_p}%} to air
     set block at {previous.%{_p}%} to air
-    set {next.%{_p}%} to location(0, 129, 3, world("%{_p}%"))
+    set {previous.%{_p}%} to location(0.5, 128.5, 0.5, world("%{_p}%"))
+    set {next.%{_p}%} to location(0.5, 129.5, 3.5, world("%{_p}%"))
+    set block at {next.%{_p}%} to acacia log
+    set block at {previous.%{_p}%} to acacia log
     tpWorld({_p}, "%{_p}%")
     clean({_p})
 
