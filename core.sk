@@ -11,6 +11,8 @@ on join:
         if y-coord of player < 1:
             if metadata "state" of player is "straight":
                 reset_straight(player)
+            if metadata "state" of player is "parkour":
+                parkour(player)
             if metadata "state" of player is "clutch":
                 reset_clutch(player)
             else if metadata "state" of player is "water":
@@ -68,7 +70,7 @@ on tab complete:
 		set tab completions for position 1 to "reload", "enable", "disable", "update" and "help"
 		set tab completions for position 2 to all scripts
 	if event-string is "/join" or "/play":
-		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "pearl", "sumo", "classic", and "bedwars"
+		set tab completions for position 1 to "straight", "clutch", "water", "tnt", "diagonal", "stick", "pearl", "sumo", "classic", "bedwars", and "parkour"
 		set tab completions for position 2 to all players
 	if event-string is "/loc":
 		set tab completions for position 1 to all players
@@ -113,12 +115,15 @@ on walk on acacia log:
             set block at {previous.%player%} to air
             set {previous.%player%} to location of block below player
             set {next.%player%} to {_loc}
+            add 1 to {jumps.%player%}
 
 on hunger meter change:
     cancel event
 
 on break:
     if metadata "state" of player is "straight":
+        cancel event
+    if metadata "state" of player is "parkour":
         cancel event
     if metadata "state" of player is "clutch":
         cancel event
@@ -232,6 +237,13 @@ command /loc <player>:
         set {_game} to metadata "state" of arg-1
         send "&4&lGENRES &8| &c%arg-1%&7 is playing game with id &c%{_game}%&7."
 
+command /spawn:
+    usage: &cUsage: /spawn
+    permission: spawn
+    permission message: &cNo Permission.
+    trigger:
+        tpWorld(player, "spawn")
+
 
 command /join <text> [<player=%player%>]:
     aliases: /play
@@ -253,7 +265,15 @@ command /join <text> [<player=%player%>]:
                     set {_time} to {time.%arg-2%}
                     send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{straight::%arg-2's uuid%} ? ""NaN""%" to arg-2
                     wait 10 ticks
-            if arg-1 is "clutch":
+            else if arg-1 is "parkour":
+                clean(arg-2)
+                set metadata "state" of arg-2 to "parkour"
+                cloneWorld("parkour", "%arg-2%")
+                parkour(arg-2)
+                while metadata "state" of arg-2 is "parkour":
+                    send action bar "&7Jumps: &c%{jumps.%player%} ? 0%" to arg-2
+                    wait 10 ticks
+            else if arg-1 is "clutch":
                 clean(arg-2)
                 set metadata "state" of arg-2 to "clutch"
                 cloneWorld("clutch", "%arg-2%")

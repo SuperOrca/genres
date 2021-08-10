@@ -5,7 +5,7 @@ on citizen right click:
                 make gui slots (integers between 0 and 53) with gray stained glass pane named "&c"
                 make gui slots (integers between 28 and 34) with red stained glass pane named "&cComing soon..."
                 make gui slots (integers between 37 and 43) with red stained glass pane named "&cComing soon..."
-                make gui slot 13 with redstone torch named "&bInfo"
+                make gui slot 13 with redstone torch named "&eInfo"
                 make gui slot 28 with oak fence named "&eClutch" with lore "" and "&7Difficulty: &f✪✪✪":
                     make player execute command "join clutch"
                 make gui slot 29 with tnt named "&eTNT Jump" with lore "" and "&7Difficulty: &f✪✪✪✪":
@@ -16,6 +16,8 @@ on citizen right click:
                     make player execute command "join diagonal"
                 make gui slot 32 with arrow named "&eStraight Bridge" with lore "" and "&7Difficulty: &f✪✪":
                     make player execute command "join straight"
+                make gui slot 33 with acacia log named "&eParkour" with lore "" and "&7Difficulty: &f✪✪✪":
+                    make player execute command "join parkour"
             open gui last gui for player
     else if npc name is "&f&lMinigames":
         if inLobby(player) is true:
@@ -23,7 +25,7 @@ on citizen right click:
                 make gui slots (integers between 0 and 53) with gray stained glass pane named "&c"
                 make gui slots (integers between 28 and 34) with red stained glass pane named "&cComing soon..."
                 make gui slots (integers between 37 and 43) with red stained glass pane named "&cComing soon..."
-                make gui slot 13 with redstone torch named "&bInfo"
+                make gui slot 13 with redstone torch named "&eInfo"
                 make gui slot 28 with red bed named "&eGerman Bedwars" with lore "" and "&7Difficulty: &f✪✪✪✪" and "&7Queue: &f%size of {-queue.bedwars::*}%/2":
                     make player execute command "join bedwars"
                     close player's inventory

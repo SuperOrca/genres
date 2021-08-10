@@ -37,6 +37,11 @@ function quit(p: player):
     if metadata "state" of {_p} is "straight":
         delWorld("%{_p}%")
         delete {time.%{_p}%}
+    if metadata "state" of {_p} is "parkour":
+        delWorld("%{_p}%")
+        delete {jumps.%{_p}%}
+        delete {next.%{_p}%}
+        delete {previous.%{_p}%}
     if metadata "state" of {_p} is "clutch":
         delWorld("%{_p}%")
         delete {time.%{_p}%}
