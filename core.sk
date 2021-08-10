@@ -1,8 +1,7 @@
 on join:
-    set join message to ""
+    set join message to "&3%player%&3 joined."
     wait 1 tick
     stop if player is not online
-    broadcast "&3%player%&3 joined."
     set metadata "state" of player to "lobby"
     quit(player)
     toggle scoreboard of player to on
