@@ -6,10 +6,10 @@ function reset_straight(p: player):
     give 256 of red wool to {_p}
 
 function parkour(p: player):
-    delete {jumps.%player%}
-    set block at {next.%player%} to air
-    set block at {previous.%player%} to air
-    set {next.%player%} to location(0, 129, 3, world("%{_p}%"))
+    delete {jumps.%{_p}%}
+    set block at {next.%{_p}%} to air
+    set block at {previous.%{_p}%} to air
+    set {next.%{_p}%} to location(0, 129, 3, world("%{_p}%"))
     tpWorld({_p}, "%{_p}%")
     clean({_p})
 
