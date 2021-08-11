@@ -11,7 +11,9 @@ on join:
             if metadata "state" of player is "straight":
                 reset_straight(player)
             if metadata "state" of player is "parkour":
-                parkour(player)
+                if {jumps.%player%} > 10:
+                    broadcast "&4&lGENRES &8|&7%player% &7made &c%{jumps.%player%}% jumps &7in parkour"  
+                parkour(player) 
             if metadata "state" of player is "clutch":
                 reset_clutch(player)
             else if metadata "state" of player is "water":
@@ -394,11 +396,6 @@ command /broadcast <text>:
         broadcast "&4&lGENRES &8| &7%arg-1%"
         play sound "block.note_block.pling" to players
         send title colored "&cAnnouncement in chat"
-
-command /invsee <player>:
-    permission: op
-    trigger:
-        open arg-1's inventory to player
 
 every 5 minutes:
     make console execute command "broadcast Remember to join our discord using /discord."
