@@ -21,6 +21,92 @@ function addWinLoss(winner: player, loser: player):
     add 1 to {wins::%{_wu}%}
     add 1 to {losses::%{_lu}%}
 
+function play(p: player, g: text):
+    if inLobby({_p}) is true:
+        set {_u} to {_p}'s uuid
+        if {_g} is "straight":
+            clean({_p})
+            set metadata "state" of {_p} to "straight"
+            cloneWorld("straight", "%{_p}%")
+            reset_straight({_p})
+            while metadata "state" of {_p} is "straight":
+                set {_time} to {time.%{_p}%}
+                send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{straight::%{_u}%} ? ""NaN""%" to {_p}
+                wait 10 ticks
+        else if {_g} is "parkour":
+            clean({_p})
+            set metadata "state" of {_p} to "parkour"
+            cloneWorld("parkour", "%{_p}%")
+            parkour({_p})
+            while metadata "state" of {_p} is "parkour":
+                send action bar "&7Jumps: &c%{jumps.%player%} ? 0%" to {_p}
+                wait 10 ticks
+        else if {_g} is "clutch":
+            clean({_p})
+            set metadata "state" of {_p} to "clutch"
+            cloneWorld("clutch", "%{_p}%")
+            reset_clutch({_p})
+            while metadata "state" of {_p} is "clutch":
+                set {_time} to {time.%{_p}%}
+                send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{clutch::%{_u}%} ? ""NaN""%" to {_p}
+                wait 10 ticks
+        else if {_g} is "water":
+            clean({_p})
+            set metadata "state" of {_p} to "water"
+            cloneWorld("water", "%{_p}%")
+            reset_water({_p})
+        else if {_g} is "tnt":
+            clean({_p})
+            set metadata "state" of {_p} to "tnt"
+            cloneWorld("tnt", "%{_p}%")
+            reset_tnt({_p})
+        else if {_g} is "diagonal":
+            clean({_p})
+            set metadata "state" of {_p} to "diagonal"
+            cloneWorld("diag", "%{_p}%")
+            reset_diagonal({_p})
+            while metadata "state" of {_p} is "diagonal":
+                set {_time} to {time.%{_p}%}
+                send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{diagonal::%{_u}%} ? ""NaN""%" to {_p}
+                wait 10 ticks
+        else if {_g} is "stick":
+            clean({_p})
+            set metadata "state" of {_p} to "queued"
+            send "&4&lGENRES &8| &7Joined queue for &cstick&7." to {_p}
+            add {_p} to {-queue.stick::*}
+            if (size of {-queue.stick::*}) > 1:
+                stick({-queue.stick::1}, {-queue.stick::2})
+        else if {_g} is "pearl":
+            clean({_p})
+            set metadata "state" of {_p} to "queued"
+            send "&4&lGENRES &8| &7Joined queue for &cpearl&7." to {_p} 
+            add {_p} to {-queue.pearl::*}
+            if (size of {-queue.pearl::*}) > 1:
+                pearl({-queue.pearl::1}, {-queue.pearl::2})
+        else if {_g} is "sumo":
+            clean({_p})
+            set metadata "state" of {_p} to "queued"
+            send "&4&lGENRES &8| &7Joined queue for &csumo&7." to {_p} 
+            add {_p} to {-queue.sumo::*}
+            if (size of {-queue.sumo::*}) > 1:
+                sumo({-queue.sumo::1}, {-queue.sumo::2})
+        else if {_g} is "classic":
+            clean({_p})
+            set metadata "state" of {_p} to "queued"
+            send "&4&lGENRES &8| &7Joined queue for &cclassic&7." to {_p} 
+            add {_p} to {-queue.classic::*}
+            if (size of {-queue.classic::*}) > 1:
+                classic({-queue.classic::1}, {-queue.classic::2})
+        else if {_g} is "bedwars":
+            clean({_p})
+            set metadata "state" of {_p} to "queued"
+            send "&4&lGENRES &8| &7Joined queue for &cbedwars&7." to {_p} 
+            add {_p} to {-queue.bedwars::*}
+            if (size of {-queue.bedwars::*}) > 1:
+                bedwars({-queue.bedwars::1}, {-queue.bedwars::2})
+        else:
+            send "&cDid not recognize gamemode." to {_p}
+
 function quit(p: player):
     if metadata "state" of {_p} is "lobby":
         send "&4&lGENRES &8| &7You have nowhere else to go." to {_p}
@@ -133,7 +219,7 @@ function clean(p: player):
     feed {_p}
 
 function updateScoreboard(p: player):
-    set {_u} to {_p}'s uuid
+    set {_u} to {_u}
     set title of scoreboard of {_p} to "&4&lGENRES&7&o (%number of players%)"
     set line 15 of scoreboard of {_p} to "&8&m----------------"
     set line 14 of scoreboard of {_p} to "&7Wins: &f%{wins::%{_u}%} ? 0%"
@@ -144,7 +230,7 @@ function updateScoreboard(p: player):
     set line 9 of scoreboard of {_p} to "&8&m----------------"
 
 function check_personal(p: player, m: text, t: timespan):
-    set {_u} to {_p}'s uuid
+    set {_u} to {_u}
     if {%{_m}%::%{_u}%} is not set:
         set {%{_m}%::%{_u}%} to {_t}
         send "&6&lPERSONAL BEST!" to {_p}

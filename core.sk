@@ -243,7 +243,7 @@ command /spawn:
     permission: spawn
     permission message: &cNo Permission.
     trigger:
-        tpWorld(player, "spawn")
+        tpWorld(player, "%player's world%")
 
 
 command /join <text> [<player=%player%>]:
@@ -256,89 +256,7 @@ command /join <text> [<player=%player%>]:
         if player is not arg-2:
             if player is not op:
                 send "&4&lGENRES &8| &7You cannot send others to a game."
-        if inLobby(arg-2) is true:
-            if arg-1 is "straight":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "straight"
-                cloneWorld("straight", "%arg-2%")
-                reset_straight(arg-2)
-                while metadata "state" of arg-2 is "straight":
-                    set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{straight::%arg-2's uuid%} ? ""NaN""%" to arg-2
-                    wait 10 ticks
-            else if arg-1 is "parkour":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "parkour"
-                cloneWorld("parkour", "%arg-2%")
-                parkour(arg-2)
-                while metadata "state" of arg-2 is "parkour":
-                    send action bar "&7Jumps: &c%{jumps.%player%} ? 0%" to arg-2
-                    wait 10 ticks
-            else if arg-1 is "clutch":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "clutch"
-                cloneWorld("clutch", "%arg-2%")
-                reset_clutch(arg-2)
-                while metadata "state" of arg-2 is "clutch":
-                    set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{clutch::%arg-2's uuid%} ? ""NaN""%" to arg-2
-                    wait 10 ticks
-            else if arg-1 is "water":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "water"
-                cloneWorld("water", "%arg-2%")
-                reset_water(arg-2)
-            else if arg-1 is "tnt":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "tnt"
-                cloneWorld("tnt", "%arg-2%")
-                reset_tnt(arg-2)
-            else if arg-1 is "diagonal":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "diagonal"
-                cloneWorld("diag", "%arg-2%")
-                reset_diagonal(arg-2)
-                while metadata "state" of arg-2 is "diagonal":
-                    set {_time} to {time.%arg-2%}
-                    send action bar "&7Time: &c%difference between now and {_time}% &8| &7PB: &c%{diagonal::%arg-2's uuid%} ? ""NaN""%" to arg-2
-                    wait 10 ticks
-            else if arg-1 is "stick":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &cstick&7." to arg-2
-                add arg-2 to {-queue.stick::*}
-                if (size of {-queue.stick::*}) > 1:
-                    stick({-queue.stick::1}, {-queue.stick::2})
-            else if arg-1 is "pearl":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &cpearl&7." to arg-2 
-                add arg-2 to {-queue.pearl::*}
-                if (size of {-queue.pearl::*}) > 1:
-                    pearl({-queue.pearl::1}, {-queue.pearl::2})
-            else if arg-1 is "sumo":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &csumo&7." to arg-2 
-                add arg-2 to {-queue.sumo::*}
-                if (size of {-queue.sumo::*}) > 1:
-                    sumo({-queue.sumo::1}, {-queue.sumo::2})
-            else if arg-1 is "classic":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &cclassic&7." to arg-2 
-                add arg-2 to {-queue.classic::*}
-                if (size of {-queue.classic::*}) > 1:
-                    classic({-queue.classic::1}, {-queue.classic::2})
-            else if arg-1 is "bedwars":
-                clean(arg-2)
-                set metadata "state" of arg-2 to "queued"
-                send "&4&lGENRES &8| &7Joined queue for &cbedwars&7." to arg-2 
-                add arg-2 to {-queue.bedwars::*}
-                if (size of {-queue.bedwars::*}) > 1:
-                    bedwars({-queue.bedwars::1}, {-queue.bedwars::2})
-            else:
-                send "&cDid not recognize gamemode."
+        join(player, arg-1)
                 
 command /leave [<player=%player%>]:
     aliases: /l
@@ -401,9 +319,7 @@ every 5 minutes:
     make console execute command "broadcast Remember to join our discord using /discord."
 
 command /bridgetest [<player=%player%>]:
-    permission:op
+    permission: op
+    permission message: &cNo Permission.
     trigger:
-        if arg-1 is not set:
-            reset_bridge(player)
-        else:
-            reset_bridge(arg-1)
+        reset_bridge(arg-1)
