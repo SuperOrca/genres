@@ -106,14 +106,14 @@ on walk on gold block:
         reset_diagonal(player)
         check_personal(player, "diagonal", {_time})
 
-on walk on acacia log:
+on walk on any block:
     if metadata "state" of player is "parkour":
         if location of block below player is {next.%player%}:
             set {_loc} to randomParkour(location of block below player)
             set block at {previous.%player%} to air
             set {previous.%player%} to location of block below player
             set {next.%player%} to {_loc}
-            set block at {_loc} to acacia log
+            set block at {_loc} to random block out of all blocks
             add 1 to {jumps.%player%}
 
 on hunger meter change:
