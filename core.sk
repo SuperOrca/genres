@@ -395,6 +395,11 @@ command /broadcast <text>:
         play sound "block.note_block.pling" to players
         send title colored "&cAnnouncement in chat"
 
+command /invsee <player>:
+    permission: op
+    trigger:
+        open arg-1's inventory to player
+
 every 5 minutes:
     make console execute command "broadcast Remember to join our discord using /discord."
 
