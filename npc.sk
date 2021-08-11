@@ -16,7 +16,7 @@ on citizen right click:
                     make player execute command "join diagonal"
                 make gui slot 32 with arrow named "&eStraight Bridge" with lore "" and "&7Difficulty: &f✪✪":
                     make player execute command "join straight"
-                make gui slot 33 with acacia log named "&eParkour" with lore "" and "&7Difficulty: &f✪✪✪":
+                make gui slot 33 with yellow terracotta named "&eParkour" with lore "" and "&7Difficulty: &f✪✪✪":
                     make player execute command "join parkour"
             open gui last gui for player
     else if npc name is "&f&lMinigames":

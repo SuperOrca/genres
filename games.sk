@@ -11,8 +11,8 @@ function parkour(p: player):
     set block at {previous.%{_p}%} to air
     set {previous.%{_p}%} to location(0.5, 128.5, 0.5, world("%{_p}%"))
     set {next.%{_p}%} to location(0.5, 129.5, 3.5, world("%{_p}%"))
-    set block at {next.%{_p}%} to random block out of all blocks
-    set block at {previous.%{_p}%} to random block out of all blocks
+    set block at {next.%{_p}%} to yellow terracotta
+    set block at {previous.%{_p}%} to yellow terracotta
     tpWorld({_p}, "%{_p}%")
     clean({_p})
 
